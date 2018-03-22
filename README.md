@@ -4,7 +4,7 @@ UBC CPSC 304 Term Project
 Andy Siu, David Kim, Ivan Gill, Justin Oh  
   
 ## Getting Started
-### Snipped from StudioLabs/modern-backbone-live-starterkit
+Snipped from StudioLabs/modern-backbone-live-starterkit
 
 ```shell
 $ npm install -g gulp karma-cli     # Install Gulp task runner and Karma test runner globally
