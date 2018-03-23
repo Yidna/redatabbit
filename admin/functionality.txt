@@ -1,0 +1,27 @@
+view list of subboards
+	- search
+		- average posts per user per subboard sorted asc/desc
+	- click on a subboard
+		- view list of moderators for that subboard
+		-gets list of threads in that subboard
+			- get list of comments in that thread
+				- create new comment
+				- edit comment (pseudo-delete)
+			- create new thread
+			- edit thread
+view list of users
+	- search
+	- rank by post count
+	- view all users who have posted in every board
+create a new subboard
+	- promote person to moderator
+delete subboard
+	- remove person from moderates
+view profile
+	- change username (NO SPACES)
+	- change password
+	- view all boards you have participated in
+	- view messages
+		- create message
+		- edit message
+register
