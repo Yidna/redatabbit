@@ -1,3 +1,4 @@
+//Accounts Route
 module.exports = {
 	loadRoutes: function(db, router) {
 		router.get("/accounts", (req, res) => {
