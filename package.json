@@ -1,10 +1,10 @@
 {
-  "name": "modern-backbone-starterkit",
-  "version": "1.0.0",
-  "description": "Lightweight starting point for a modern backbone web app.",
+  "name": "redatabbit",
+  "version": "0.0.1",
+  "description": "CPSC304 Project",
+  "author": "Andy Siu, David Kim, Ivan Gill, Justin Oh",
   "keywords": [
     "backbone",
-    "starterkit",
     "frontend",
     "boilerplate",
     "es6",
@@ -18,8 +18,7 @@
     "lint": "eslint src",
     "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config",
     "prepush": "npm run lint",
-    "update": "node src/app/components/netflix-scraper/NetflixScraper",
-    "backend": "node -e \"require('./src/app/components/database/DatabaseManager').createREST()\""
+	"backend": "node src/api/DatabaseManager"
   },
   "jest": {
     "transform": {
@@ -73,6 +72,7 @@
     "json-loader": "^0.5.4",
     "lodash": "^4.17.4",
     "marked": "^0.3.9",
+    "mysql": "^2.15.0",
     "normalize.css": "^5.0.0",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^9.1.0",
