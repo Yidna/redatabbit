@@ -29,7 +29,7 @@ module.exports = {
 			//TODO: parameter filling
 			db.query(q, [0, 0, 0, req.params.username], (err, rows) => {
 				//TODO: result checking
-				res.send({ "result": true });
+				res.send([{ "result": true} ]);
 			});
 		});
 		
@@ -40,7 +40,7 @@ module.exports = {
 			return;
 			db.query(q, [0, 0, 0], (err, rows) => {
 				//TODO: result checking
-				res.send({ "result": true });
+				res.send([{ "result": true} ]);
 			});
 		});
 		
@@ -49,7 +49,7 @@ module.exports = {
 			
 			db.query(q, (err, rows) => {
 				//TODO: result checking
-				res.send({ "result": true });
+				res.send([{ "result": true} ]);
 			});
 		});
 		
@@ -58,7 +58,7 @@ module.exports = {
 			
 			db.query(q, [req.params.username], (err, rows) => {
 				//TODO: result checking
-				res.send({ "result": true });
+				res.send([{ "result": true} ]);
 			});
 		});
 	}
