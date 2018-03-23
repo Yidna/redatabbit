@@ -4,7 +4,6 @@ UBC CPSC 304 Term Project
 Andy Siu, David Kim, Ivan Gill, Justin Oh  
   
 ## Getting Started
-Snipped from StudioLabs/modern-backbone-live-starterkit
 
 ```shell
 $ npm install                       # Install Node.js components listed in ./package.json
@@ -13,3 +12,4 @@ $ npm install                       # Install Node.js components listed in ./pac
 ```shell
 $ npm run dev						# Starts up both the frontend webpack server and the backend express server for the api
 ```
+This will start the webpack server on port 3000 and the express server on port 9001.
