@@ -14,34 +14,6 @@
     background-color: var(--background-color);
     padding: 1%;
     margin-bottom: 15px;
-
-    @media (max-width: 950px) {
-      > img {
-        width: 40%;
-      }
-    }
-
-    @media (max-width: 750px) {
-      > img {
-        width: 50%;
-      }
-    }
-
-    @media (max-width: 580px) {
-      > img {
-        width: 60%;
-      }
-    }
-
-    @media (max-width: 450px) {
-      > img {
-        width: 70%;
-      }
-    }
-
-    > img {
-      width: 30%;
-    }
   }
 
   .intro {
@@ -52,14 +24,16 @@
 }
 
 body {
-  ul {
-    list-style-type: none;
-    column-count: 3;
-    text-align: center;
+  .board {
+    text-align: left;
+    margin-left: 5%;
+    font-size: large;
+    border-collapse: separate;
+    border-spacing: 2em;
   }
 
-  li {
-    margin-bottom: 15px;
+  .subboard {
+    background-color: lightgrey;
   }
 
   a {
