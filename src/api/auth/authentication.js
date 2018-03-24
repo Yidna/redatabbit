@@ -34,7 +34,7 @@ module.exports = {
 				var payload = {
 					"username": req.body.username
 				};
-				var token = jwt.sign(payload, expressServer.get("serverSecret"));
+				var token = jwt.sign(payload, expressServer.get("serverSecret"), { expiresIn: 3600 });
 				res.send({
 					"success": true,
 					"message": "",
