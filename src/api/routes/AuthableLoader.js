@@ -4,10 +4,10 @@ module.exports =
 class AuthableLoader extends require("./RoutesLoader") {
 	constructor(db, authLoader) {
 		super(db);
-		this.auth = authLoader;
+		this.__auth = authLoader;
 	}
 	
 	authenticate(token) {
-		return this.auth.authenticate(token);
+		return this.__auth.authenticate(token);
 	}
 }
