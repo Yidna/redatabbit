@@ -15,6 +15,8 @@ const db = MySQL.createConnection({
 });
 db.connect();
 
+apiServer.set("serverSecret", Config.secret);
+
 apiServer.use(BodyParser.json());
 apiServer.use(BodyParser.urlencoded({ extended: true }));
 
