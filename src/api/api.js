@@ -20,7 +20,7 @@ apiServer.set("serverSecret", Config.secret);
 apiServer.use(BodyParser.json());
 apiServer.use(BodyParser.urlencoded({ extended: true }));
 
-const router = Router.createRouter(db);
+const router = Router.createRouter(apiServer, db);
 apiServer.use("/api", router);
 
 apiServer.listen(9001)

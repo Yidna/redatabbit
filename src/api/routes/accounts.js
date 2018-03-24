@@ -36,8 +36,9 @@ module.exports = {
 		router.post("/accounts", (req, res) => {
 			var q = "INSERT INTO Account(username, password, is_moderator) VALUES (?, ?, ?)";
 			
-			//TODO: parameter filling
+			res.send([{ "result": true} ]);
 			return;
+			//TODO: parameter filling
 			db.query(q, [0, 0, 0], (err, rows) => {
 				//TODO: result checking
 				res.send([{ "result": true} ]);
