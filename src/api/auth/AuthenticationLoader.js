@@ -13,41 +13,20 @@ class AuthenticationLoader extends require("../routes/RoutesLoader") {
 		router.post("/authenticate", (req, res) => {
 			var q = "SELECT * FROM Account WHERE username=? AND password=?";
 			if (!(req.body && req.body.username && req.body.password)) {
-				res.send({ 
-					"success": false,
-					"message": "Missing username and/or password",
-					"data": []
-				});
-				return;
+				return this.sendError(res, "Missing username and/or password");
 			}
 			this.db.query(q, [req.body.username, sha512(req.body.password)], (err, rows) => {
 				if (err) {
-					res.send({
-						"success": false,
-						"message": err,
-						"data": []
-					});
-					return;
+					return this.sendError(res, err);
 				}
 				if (rows.length != 1) {
-					res.send({
-						"success": false,
-						"message": "Invalid username or password",
-						"data": []
-					});
-					return;
+					return this.sendError(res, "Invalid username or password");
 				}
 				var payload = {
 					"username": req.body.username
 				};
 				var token = jwt.sign(payload, this.expressServer.get("serverSecret"), { expiresIn: 3600 });
-				res.send({
-					"success": true,
-					"message": "",
-					"data": [{
-						"token": token
-					}]
-				});
+				return this.sendSuccessData(res, [{ "token": token }]);
 			});
 		});
 	}
