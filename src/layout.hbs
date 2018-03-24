@@ -3,14 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
-  <title>redatabbit</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <title>redatabbit: the front page of cpsc304</title>
 
   {{#each htmlWebpackPlugin.files.css}}
     <link rel="stylesheet" href="{{htmlWebpackPlugin.options.path}}{{this}}" />
   {{/each}}
 </head>
 <body>
+	<div class="jumbotron">
+		<h1><a href="/">redatabbit</a></h1>
+		<ul class="nav nav-tabs pull-left">
+			<li class="active"><a>Home</a></li>
+			<li><a>Boards</a></li>
+			<li><a>Users</a></li>
+		</ul>
+		<ul class="nav nav-tabs pull-right">
+			<li><a>My Account</a></li>
+		</ul>
+	</div>
+	
   <div id="root"></div>
 
   {{#each htmlWebpackPlugin.files.js}}
