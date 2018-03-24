@@ -9,7 +9,7 @@ class AccountsLoader extends require("./AuthableLoader") {
 				if (err) {
 					throw err
 				}
-				res.send(rows)
+				return this.sendSuccessData(res, rows);
 			});
 		});
 		
@@ -20,7 +20,7 @@ class AccountsLoader extends require("./AuthableLoader") {
 				if (err) {
 					throw err
 				}
-				res.send(rows)
+				return this.sendSuccessData(res, rows);
 			});
 		});
 		
@@ -30,19 +30,17 @@ class AccountsLoader extends require("./AuthableLoader") {
 			//TODO: parameter filling
 			this.db.query(q, [0, 0, 0, req.params.username], (err, rows) => {
 				//TODO: result checking
-				res.send([{ "result": true} ]);
+				return this.sendSuccess(res);
 			});
 		});
 		
 		router.post("/accounts", (req, res) => {
 			var q = "INSERT INTO Account(username, password, is_moderator) VALUES (?, ?, ?)";
 			
-			res.send([{ "result": true} ]);
-			return;
 			//TODO: parameter filling
 			this.db.query(q, [0, 0, 0], (err, rows) => {
 				//TODO: result checking
-				res.send([{ "result": true} ]);
+				return this.sendSuccess(res);
 			});
 		});
 		
@@ -51,7 +49,7 @@ class AccountsLoader extends require("./AuthableLoader") {
 			
 			this.db.query(q, (err, rows) => {
 				//TODO: result checking
-				res.send([{ "result": true} ]);
+				return this.sendSuccess(res);
 			});
 		});
 		
@@ -60,7 +58,7 @@ class AccountsLoader extends require("./AuthableLoader") {
 			
 			this.db.query(q, [req.params.username], (err, rows) => {
 				//TODO: result checking
-				res.send([{ "result": true} ]);
+				return this.sendSuccess(res);
 			});
 		});
 	}
