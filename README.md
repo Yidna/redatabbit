@@ -8,8 +8,9 @@ Andy Siu, David Kim, Ivan Gill, Justin Oh
 ```shell
 $ npm install                       # Install Node.js components listed in ./package.json
 ```
+This will install the necessary packages
 
 ```shell
-$ npm run dev						# Starts up both the frontend webpack server and the backend express server for the api
+$ npm run dev                       # Starts up the entire server
 ```
 This will start the webpack server on port 3000 and the express server on port 9001.
