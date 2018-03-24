@@ -1,11 +1,10 @@
 //Accounts Route
 
 module.exports = 
-class AccountsLoader extends require("./RoutesLoader") {
+class AccountsLoader extends require("./AuthableLoader") {
 	loadRoutes(router) {
 		router.get("/accounts", (req, res) => {
 			var q = "SELECT * FROM Account";
-			
 			this.db.query(q, (err, rows) => {
 				if (err) {
 					throw err

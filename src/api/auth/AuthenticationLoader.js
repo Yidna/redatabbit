@@ -51,4 +51,11 @@ class AuthenticationLoader extends require("../routes/RoutesLoader") {
 			});
 		});
 	}
+	
+	authenticate(token) {
+		if (jwt.verify(token, this.expressServer.get("serverSecret"))) {
+			return jwt.decode(token).username;
+		}
+		return "";
+	}
 }

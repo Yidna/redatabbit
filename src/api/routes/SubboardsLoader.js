@@ -1,6 +1,6 @@
 //Subboards Route
 module.exports = 
-class SubboardsLoader extends require("./RoutesLoader") {
+class SubboardsLoader extends require("./AuthableLoader") {
 	loadRoutes(router) {
 		router.get("/subboards", (req, res) => {
 			res.send([{ "name": "allBoards", "date_created": "howtoformatdate" }]);

@@ -1,6 +1,6 @@
 //Threads Route
 module.exports = 
-class ThreadsLoader extends require("./RoutesLoader") {
+class ThreadsLoader extends require("./AuthableLoader") {
 	loadRoutes(router) {
 		router.get("/subboards/:name/threads", (req, res) => {
 			res.send([{ "id": 0, "subboard": "allBoards", "title": "titleforallthreads", "username": "someuser", "date_created": "somedate", "content": "blablabla" }]);

@@ -9,14 +9,14 @@ module.exports =
 class APIRouter {
 	constructor(expressServer, db) {
 		this.router = new Express.Router();
-		this.authenticationLoader = new AuthenticationLoader(db, expressServer);
-		this.accountsLoader = new AccountsLoader(db);
-		this.subboardsLoader = new SubboardsLoader(db);
-		this.threadsLoader = new ThreadsLoader(db);
+		this.authLoader = new AuthenticationLoader(db, expressServer);
+		this.accountsLoader = new AccountsLoader(db, this.authLoader);
+		this.subboardsLoader = new SubboardsLoader(db, this.authLoader);
+		this.threadsLoader = new ThreadsLoader(db, this.authLoader);
 	}
 	
 	loadRoutes() {
-		this.authenticationLoader.loadRoutes(this.router);
+		this.authLoader.loadRoutes(this.router);
 		this.accountsLoader.loadRoutes(this.router);
 		this.subboardsLoader.loadRoutes(this.router);
 		this.threadsLoader.loadRoutes(this.router);
