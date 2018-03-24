@@ -2,15 +2,16 @@ const Express = require('express');
 const MySQL = require('mysql');
 const BodyParser = require("body-parser");
 
+const Config = require("./config");
 const Router = require("./router");
 
 const apiServer = Express();
 
 const db = MySQL.createConnection({
-	host	: "heatboxmc.busgasexplosion.com",
-	user	: "ivangill",
-	password: "P@$$w0rd1v4n",
-	database: "cs304_message_board"
+	host	: Config.host,
+	user	: Config.user,
+	password: Config.password,
+	database: Config.database
 });
 db.connect();
 
