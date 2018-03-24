@@ -2,8 +2,14 @@
 const sha512 = require("js-sha512");
 const jwt = require("jsonwebtoken");
 
-module.exports = {
-	loadRoutes: function(expressServer, db, router) {
+module.exports = 
+class AuthenticationLoader extends require("../routes/RoutesLoader") {
+	constructor(db, expressServer) {
+		super(db);
+		this.expressServer = expressServer;
+	}
+	
+	loadRoutes(router) {
 		router.post("/authenticate", (req, res) => {
 			var q = "SELECT * FROM Account WHERE username=? AND password=?";
 			if (!(req.body && req.body.username && req.body.password)) {
@@ -14,7 +20,7 @@ module.exports = {
 				});
 				return;
 			}
-			db.query(q, [req.body.username, sha512(req.body.password)], (err, rows) => {
+			this.db.query(q, [req.body.username, sha512(req.body.password)], (err, rows) => {
 				if (err) {
 					res.send({
 						"success": false,
@@ -34,7 +40,7 @@ module.exports = {
 				var payload = {
 					"username": req.body.username
 				};
-				var token = jwt.sign(payload, expressServer.get("serverSecret"), { expiresIn: 3600 });
+				var token = jwt.sign(payload, this.expressServer.get("serverSecret"), { expiresIn: 3600 });
 				res.send({
 					"success": true,
 					"message": "",

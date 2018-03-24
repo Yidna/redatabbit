@@ -1,10 +1,12 @@
 //Accounts Route
-module.exports = {
-	loadRoutes: function(db, router) {
+
+module.exports = 
+class AccountsLoader extends require("./RoutesLoader") {
+	loadRoutes(router) {
 		router.get("/accounts", (req, res) => {
 			var q = "SELECT * FROM Account";
 			
-			db.query(q, (err, rows) => {
+			this.db.query(q, (err, rows) => {
 				if (err) {
 					throw err
 				}
@@ -15,7 +17,7 @@ module.exports = {
 		router.get("/accounts/:username", (req, res) => {
 			var q = "SELECT * FROM Account WHERE username=?";
 			
-			db.query(q, [req.params.username], (err, rows) => {
+			this.db.query(q, [req.params.username], (err, rows) => {
 				if (err) {
 					throw err
 				}
@@ -27,7 +29,7 @@ module.exports = {
 			var q = "UPDATE Account SET username=?, password=?, is_moderator=? WHERE username=?";
 			
 			//TODO: parameter filling
-			db.query(q, [0, 0, 0, req.params.username], (err, rows) => {
+			this.db.query(q, [0, 0, 0, req.params.username], (err, rows) => {
 				//TODO: result checking
 				res.send([{ "result": true} ]);
 			});
@@ -39,7 +41,7 @@ module.exports = {
 			res.send([{ "result": true} ]);
 			return;
 			//TODO: parameter filling
-			db.query(q, [0, 0, 0], (err, rows) => {
+			this.db.query(q, [0, 0, 0], (err, rows) => {
 				//TODO: result checking
 				res.send([{ "result": true} ]);
 			});
@@ -48,7 +50,7 @@ module.exports = {
 		router.delete("/accounts", (req, res) => {
 			var q = "TRUNCATE Account";
 			
-			db.query(q, (err, rows) => {
+			this.db.query(q, (err, rows) => {
 				//TODO: result checking
 				res.send([{ "result": true} ]);
 			});
@@ -57,7 +59,7 @@ module.exports = {
 		router.delete("/accounts/:username", (req, res) => {
 			var q = "DELETE FROM Account WHERE username=?";
 			
-			db.query(q, [req.params.username], (err, rows) => {
+			this.db.query(q, [req.params.username], (err, rows) => {
 				//TODO: result checking
 				res.send([{ "result": true} ]);
 			});

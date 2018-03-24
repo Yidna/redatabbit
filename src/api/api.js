@@ -3,7 +3,7 @@ const MySQL = require('mysql');
 const BodyParser = require("body-parser");
 
 const Config = require("./config");
-const Router = require("./router");
+const APIRouter = require("./APIRouter");
 
 const apiServer = Express();
 
@@ -20,7 +20,8 @@ apiServer.set("serverSecret", Config.secret);
 apiServer.use(BodyParser.json());
 apiServer.use(BodyParser.urlencoded({ extended: true }));
 
-const router = Router.createRouter(apiServer, db);
-apiServer.use("/api", router);
+const router = new APIRouter(apiServer, db);
+router.loadRoutes();
+apiServer.use("/api", router.get());
 
 apiServer.listen(9001)
