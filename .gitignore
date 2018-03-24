@@ -6,4 +6,3 @@ coverage
 public
 !.gitkeep
 yarn-error.log
-.env
