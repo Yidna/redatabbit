@@ -6,11 +6,14 @@ import SubboardCollectionView from './components/subboard/SubboardCollectionView
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 
 import LoginForm from "app/components/login/LoginForm"
+import CommentCollectionView from "./components/comment/CommentCollectionView";
 
 export default Backbone.Router.extend({
   initialize() {
     this.subboardCollectionView = new SubboardCollectionView()
     this.threadCollectionView = new ThreadCollectionView()
+    this.commentCollectionView = new CommentCollectionView()
+
     const loginForm = new LoginForm().render()
     $('#login-box').empty().append(loginForm.$el)
   },
@@ -27,6 +30,7 @@ export default Backbone.Router.extend({
 
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
+      console.log(data.data)
       this.subboardCollectionView.collection.add(data.data)
     })
     this.subboardCollectionView.render()
@@ -43,7 +47,12 @@ export default Backbone.Router.extend({
   },
 
   visitThread() {
-    console.log('hi')
+    this.commentCollectionView.collection.reset()
+    $.get('/api/accounts', (data) => {
+      this.commentCollectionView.collection.add(data.data)
+    })
+    this.commentCollectionView.render()
+    $('.collection').empty().append(this.commentCollectionView.$el)
   }
 })
 

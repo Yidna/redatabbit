@@ -6,5 +6,5 @@ export default Marionette.CollectionView.extend({
   childView: CommentView,
   collection: new CommentCollection(),
   tagName: 'table',
-  className: 'thread'
+  className: 'board'
 })
