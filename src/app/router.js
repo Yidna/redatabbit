@@ -29,19 +29,7 @@ export default Backbone.Router.extend({
 		const loginForm = new LoginForm().render()
 		$('#login-box').empty().append(loginForm.$el)
 		
-		var content;
-		if (localStorage.getItem("token")) {
-			$.get('/api/accounts/AndySiu', (data) => {
-				content = new AccountView({ model: data.data[0] });
-				alert(JSON.stringify(content.model));
-				content.render();
-				$("#side-bar").empty().append(content.$el);
-			})
-		}
-		else {
-			content = new LoginForm().render();
-			$("#side-bar").empty().append(content.$el);
-		}
+		this.loadSideBar();
 	},
 
   home() {
@@ -74,6 +62,22 @@ export default Backbone.Router.extend({
     })
     this.commentCollectionView.render()
     $('.collection').empty().append(this.commentCollectionView.$el)
+  },
+  
+  loadSideBar() {
+		var content;
+		if (localStorage.getItem("token")) {
+			content = new AccountView();
+			$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
+				data.data[0].date_created = data.data[0].date_created.substring(0, 10);
+				content.model.set(data.data[0]);
+				content.render();
+			})
+		}
+		else {
+			content = new LoginForm().render();
+		}
+		$("#side-bar").empty().append(content.$el);
   }
 })
 

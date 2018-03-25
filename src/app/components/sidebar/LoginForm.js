@@ -23,6 +23,7 @@ export default Marionette.View.extend({
 				$(".alert").attr("style", "visibility:visible");
 				return;
 			}
+			localStorage.setItem("username", $("#username").val());
 			localStorage.setItem("token", data.data[0].token);
 			location.reload();
 		});

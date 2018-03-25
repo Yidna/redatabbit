@@ -7,5 +7,13 @@ import AccountModel from "./AccountModel"
 
 export default Marionette.View.extend({
 	template,
-	model: new AccountModel()
+	model: new AccountModel(),
+	events: {
+		"click #logout-button": "logout"
+	},
+	logout(evt) {
+		evt.preventDefault();
+		localStorage.removeItem("token");
+		location.reload();
+	},
 })
