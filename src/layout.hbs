@@ -18,12 +18,10 @@
 			<li><a>Boards</a></li>
 			<li><a>Users</a></li>
 		</ul>
-		<ul class="nav nav-tabs pull-right">
-			<li><a>My Account</a></li>
-		</ul>
 	</div>
-	
-  <div id="root"></div>
+	<div id="content" class="col-sm-10"></div>
+	<div id="login-box" class="col-sm-2" style="border-left: 1px solid lightgray;">
+	</div>
 
   {{#each htmlWebpackPlugin.files.js}}
     <script type="text/javascript" src="{{htmlWebpackPlugin.options.path}}{{this}}"></script>
