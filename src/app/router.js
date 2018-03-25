@@ -8,38 +8,42 @@ import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import LoginForm from "app/components/login/LoginForm"
 
 export default Backbone.Router.extend({
+  initialize() {
+    this.subboardCollectionView = new SubboardCollectionView()
+    this.threadCollectionView = new ThreadCollectionView()
+    const loginForm = new LoginForm().render()
+    $('#login-box').empty().append(loginForm.$el)
+  },
+
   routes: {
     '': 'home',
     ':subboard': 'visitBoard',
     ':subboard/:thread': 'visitThread'
-  },
-  
-  initialize() {
-	const loginForm = new LoginForm().render();
-	$("#login-box").empty().append(loginForm.$el);
   },
 
   home() {
     const homePage = new HomePage().render()
     $('#content').empty().append(homePage.$el)
 
-    const subboardCollectionView = new SubboardCollectionView()
+    this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      subboardCollectionView.collection.add(data)
+      this.subboardCollectionView.collection.add(data.data)
     })
-    subboardCollectionView.render()
-    $('.collection').append(subboardCollectionView.$el)
+    this.subboardCollectionView.render()
+    $('.collection').empty().append(this.subboardCollectionView.$el)
   },
 
   visitBoard() {
-    $('.subboard').remove()
-
-    const threadCollectionView = new ThreadCollectionView()
+    this.threadCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      threadCollectionView.collection.add(data)
+      this.threadCollectionView.collection.add(data.data)
     })
-    threadCollectionView.render()
-    $('.collection').append(threadCollectionView.$el)
+    this.threadCollectionView.render()
+    $('.collection').empty().append(this.threadCollectionView.$el)
+  },
+
+  visitThread() {
+    console.log('hi')
   }
 })
 
