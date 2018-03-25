@@ -14,6 +14,9 @@ export default Backbone.Router.extend({
     this.threadCollectionView = new ThreadCollectionView()
     this.commentCollectionView = new CommentCollectionView()
 
+    const homePage = new HomePage().render()
+    $('#content').empty().append(homePage.$el)
+
     const loginForm = new LoginForm().render()
     $('#login-box').empty().append(loginForm.$el)
   },
@@ -25,9 +28,6 @@ export default Backbone.Router.extend({
   },
 
   home() {
-    const homePage = new HomePage().render()
-    $('#content').empty().append(homePage.$el)
-
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       console.log(data.data)
