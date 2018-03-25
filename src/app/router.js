@@ -68,11 +68,24 @@ export default Backbone.Router.extend({
 		var content;
 		if (localStorage.getItem("token")) {
 			content = new AccountView();
-			$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
-				data.data[0].date_created = data.data[0].date_created.substring(0, 10);
-				content.model.set(data.data[0]);
-				content.render();
-			})
+			$.post({
+				url: '/api/authenticate/renew',
+				headers: {
+					"token": localStorage.getItem("token")
+				},
+				success: (data) => {
+					if (!data.success) {
+						localStorage.removeItem("token");
+						location.reload();
+						return;
+					}
+					$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
+						data.data[0].date_created = data.data[0].date_created.substring(0, 10);
+						content.model.set(data.data[0]);
+						content.render();
+					})
+				}
+			});
 		}
 		else {
 			content = new LoginForm().render();
