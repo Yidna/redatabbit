@@ -3,21 +3,17 @@ module.exports =
     class AccountsLoader extends require('./AuthableLoader') {
       loadRoutes(router) {
         router.get('/accounts', (req, res) => {
-          const q = 'SELECT * FROM Account'
+          const q = 'SELECT username, date_created FROM Account'
           this.db.query(q, (err, rows) => {
             if (err) {
               throw err
-            }
-            for (let i = 0; i < rows.length; i++) {
-              console.log(rows[i].username) // for test
             }
             return this.sendSuccessData(res, rows)
           })
         })
 
         router.get('/accounts/:username', (req, res) => {
-          const q = 'SELECT * FROM Account WHERE username=?'
-
+          const q = 'SELECT username, date_created FROM Account WHERE username=?'
           this.db.query(q, [req.params.username], (err, rows) => {
             if (err) {
               throw err
@@ -54,18 +50,20 @@ module.exports =
 
         router.delete('/accounts', (req, res) => {
           const q = 'TRUNCATE Account'
-
           this.db.query(q, (err, rows) => {
-                    // TODO: result checking
+            if (err) {
+              throw err
+            }
             return this.sendSuccess(res)
           })
         })
 
         router.delete('/accounts/:username', (req, res) => {
           const q = 'DELETE FROM Account WHERE username=?'
-
           this.db.query(q, [req.params.username], (err, rows) => {
-                    // TODO: result checking
+            if (err) {
+              throw err
+            }
             return this.sendSuccess(res)
           })
         })
