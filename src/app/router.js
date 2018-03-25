@@ -8,16 +8,28 @@ import AccountView from "app/components/sidebar/AccountView"
 import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
+import CommentCollectionView from "./components/comment/CommentCollectionView";
 
+<<<<<<< HEAD
 
 export default Backbone.Router.extend({
   routes: {
-    '': 'home',
-    ':subboard': 'visitBoard',
-    ':subboard/:thread': 'visitThread'
+    boards: 'visitBoards',
+    'boards/:subboard': 'visitBoard',
+    'boards/:subboard/:thread': 'visitThread'
   },
   
 	initialize() {
+		this.subboardCollectionView = new SubboardCollectionView()
+		this.threadCollectionView = new ThreadCollectionView()
+		this.commentCollectionView = new CommentCollectionView()
+		
+		const homePage = new HomePage().render()
+		$('#content').empty().append(homePage.$el)
+
+		const loginForm = new LoginForm().render()
+		$('#login-box').empty().append(loginForm.$el)
+		
 		var content;
 		if (localStorage.getItem("token")) {
 			$.get('/api/accounts/AndySiu', (data) => {
@@ -33,27 +45,32 @@ export default Backbone.Router.extend({
 		}
 	},
 
-  home() {
-    const homePage = new HomePage().render()
-    $('#content').empty().append(homePage.$el)
-
-    const subboardCollectionView = new SubboardCollectionView()
+  visitBoards() {
+    this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      subboardCollectionView.collection.add(data)
+      console.log(data.data)
+      this.subboardCollectionView.collection.add(data.data)
     })
-    subboardCollectionView.render()
-    $('.collection').append(subboardCollectionView.$el)
+    this.subboardCollectionView.render()
+    $('.collection').empty().append(this.subboardCollectionView.$el)
   },
 
   visitBoard() {
-    $('.subboard').remove()
-
-    const threadCollectionView = new ThreadCollectionView()
+    this.threadCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      threadCollectionView.collection.add(data)
+      this.threadCollectionView.collection.add(data.data)
     })
-    threadCollectionView.render()
-    $('.collection').append(threadCollectionView.$el)
+    this.threadCollectionView.render()
+    $('.collection').empty().append(this.threadCollectionView.$el)
+  },
+
+  visitThread() {
+    this.commentCollectionView.collection.reset()
+    $.get('/api/accounts', (data) => {
+      this.commentCollectionView.collection.add(data.data)
+    })
+    this.commentCollectionView.render()
+    $('.collection').empty().append(this.commentCollectionView.$el)
   }
 })
 
