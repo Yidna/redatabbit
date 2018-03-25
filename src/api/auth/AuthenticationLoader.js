@@ -10,8 +10,8 @@ class AuthenticationLoader extends require("../routes/RoutesLoader") {
 	}
 	
 	loadRoutes(router) {
-		router.post("/authenticate", (req, res) => {
-			var q = "SELECT * FROM Account WHERE username=? AND password=?";
+		router.post("/authenticate/login", (req, res) => {
+			var q = "SELECT username, password FROM Account WHERE username=? AND password=?";
 			if (!(req.body && req.body.username && req.body.password)) {
 				return this.sendError(res, "Missing username and/or password");
 			}
@@ -27,6 +27,41 @@ class AuthenticationLoader extends require("../routes/RoutesLoader") {
 				};
 				var token = jwt.sign(payload, this.expressServer.get("serverSecret"), { expiresIn: 3600 });
 				return this.sendSuccessData(res, [{ "token": token }]);
+			});
+		});
+		
+		router.post("/authenticate/renew", (req, res) => {
+			if (!req.headers.token) {
+				return this.sendError(res, "Nothing to renew");
+			}
+			var auth = this.authenticate(req.headers.token);
+			if (!auth) {
+				return this.sendError(res, "Invalid token");
+			}
+			var payload = {
+				"username": auth
+			};
+			var token = jwt.sign(payload, this.expressServer.get("serverSecret"), { expiresIn: 3600 });
+			return this.sendSuccessData(res, [{ "token": token }]);
+		});
+		
+		router.post("/authenticate/verify", (req, res) => {
+			var q = "SELECT username, password FROM Account WHERE username=? AND password=?";
+			if (!(req.headers.token && req.body.password)) {
+				return this.sendError(res, "Insufficient information");
+			}
+			var auth = this.authenticate(req.headers.token);
+			if (!auth) {
+				return this.sendError(res, "Invalid token");
+			}
+			this.db.query(q, [auth, sha512(req.body.password)], (err, rows) => {
+				if (err) {
+					return this.sendError(res, err);
+				}
+				if (rows.length != 1) {
+					return this.sendError(res, "Invalid password");
+				}
+				return this.sendSuccess(res);
 			});
 		});
 	}
