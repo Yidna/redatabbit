@@ -10,8 +10,6 @@ import SubboardCollectionView from './components/subboard/SubboardCollectionView
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
 
-<<<<<<< HEAD
-
 export default Backbone.Router.extend({
   routes: {
     boards: 'visitBoards',
