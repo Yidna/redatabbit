@@ -18,11 +18,11 @@ export default Marionette.View.extend({
 		location.reload();
 	},
 	toggleSettings(evt) {
-		if ($("#settings").attr("style") == "visibility:hidden") {
+		if ($("#settings").attr("style") == "visibility:hidden;height:0px") {
 			$("#settings").attr("style", "visibility:visible");
 		}
 		else {
-			$("#settings").attr("style", "visibility:hidden");
+			$("#settings").attr("style", "visibility:hidden;height:0px");
 		}
 	}
 })
