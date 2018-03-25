@@ -1,6 +1,6 @@
 import Marionette from 'backbone.marionette'
 import $ from "jquery";
-const localStorage = require("localStorage");
+import localStorage from "localStorage"
 
 import template from './LoginForm.hbs'
 

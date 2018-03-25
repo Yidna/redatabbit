@@ -1,11 +1,14 @@
 import $ from 'jquery'
 import Backbone from 'backbone'
+import localStorage from "localStorage"
+
+import LoginForm from "app/components/sidebar/LoginForm"
+import AccountView from "app/components/sidebar/AccountView"
 
 import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 
-import LoginForm from "app/components/login/LoginForm"
 
 export default Backbone.Router.extend({
   routes: {
@@ -14,10 +17,21 @@ export default Backbone.Router.extend({
     ':subboard/:thread': 'visitThread'
   },
   
-  initialize() {
-	const loginForm = new LoginForm().render();
-	$("#login-box").empty().append(loginForm.$el);
-  },
+	initialize() {
+		var content;
+		if (localStorage.getItem("token")) {
+			$.get('/api/accounts/AndySiu', (data) => {
+				content = new AccountView({ model: data.data[0] });
+				alert(JSON.stringify(content.model));
+				content.render();
+				$("#side-bar").empty().append(content.$el);
+			})
+		}
+		else {
+			content = new LoginForm().render();
+			$("#side-bar").empty().append(content.$el);
+		}
+	},
 
   home() {
     const homePage = new HomePage().render()
