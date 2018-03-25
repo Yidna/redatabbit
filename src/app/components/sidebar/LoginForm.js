@@ -13,7 +13,7 @@ export default Marionette.View.extend({
 	login(evt) {
 		$(".alert").attr("style", "visibility:hidden");
 		evt.preventDefault();
-		$.post("/api/authenticate", {
+		$.post("/api/authenticate/login", {
 			"username": $("#username").val(),
 			"password": $("#password").val()
 		},
