@@ -22,12 +22,12 @@ export default Backbone.Router.extend({
   },
 
   routes: {
-    '': 'home',
-    ':subboard': 'visitBoard',
-    ':subboard/:thread': 'visitThread'
+    boards: 'visitBoards',
+    'boards/:subboard': 'visitBoard',
+    'boards/:subboard/:thread': 'visitThread'
   },
 
-  home() {
+  visitBoards() {
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       console.log(data.data)
