@@ -16,7 +16,9 @@ export default Backbone.Router.extend({
     '': 'home',
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
-    'boards/:subboard/:thread': 'visitThread'
+    'boards/:subboard/:thread': 'visitThread',
+	'users': 'visitUsers',
+	'messages/:username': 'visitInbox'
   },
   
 	initialize() {
@@ -26,9 +28,6 @@ export default Backbone.Router.extend({
 		
 		const homePage = new HomePage().render()
 		$('#content').empty().append(homePage.$el)
-
-		const loginForm = new LoginForm().render()
-		$('#login-box').empty().append(loginForm.$el)
 		
 		this.loadBanner();
 		this.loadSideBar();
@@ -66,6 +65,15 @@ export default Backbone.Router.extend({
     })
     this.commentCollectionView.render()
     $('.collection').empty().append(this.commentCollectionView.$el)
+  },
+  
+  visitUsers() {
+	$("#users-tab").addClass("active");
+    $('.collection').empty()
+  },
+  
+  visitInbox() {
+    $('.collection').empty()
   },
   
   loadBanner() {
