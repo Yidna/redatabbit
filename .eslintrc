@@ -26,6 +26,9 @@
   },
   "rules": {
     "semi": [2, "never"],
+    "rules": {
+      "indent": [2, "tab"]
+    },
     "comma-dangle": 0,
     "max-len": 0,
     "no-shadow": 0,
