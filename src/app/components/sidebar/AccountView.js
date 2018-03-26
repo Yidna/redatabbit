@@ -36,13 +36,18 @@ export default Marionette.View.extend({
 	submit(evt) {
 		$(".alert").attr("style", "visibility:hidden");
 		evt.preventDefault();
-		$.post({
-			url: "api/authenticate/verify",
+		$(".alert").empty().append("API call not yet implemented");
+		$(".alert").attr("style", "visibility:visible");
+		return;
+		$.put({
+			url: "api/accounts/"+this.model.username,
 			headers: {
-				token: localStorage.getItem("token")
+				token: localStorage.getItem("token"),
 			},
 			data: {
-				password: $("#old-password").val()
+				oldPassword: $("#old-password").val(),
+				username: $("#username").val(),
+				password: $("#new-password").val()
 			},
 			success: (data) => {
 				if (!data.success) {
@@ -50,8 +55,6 @@ export default Marionette.View.extend({
 					$(".alert").attr("style", "visibility:visible");
 					return;
 				}
-				$(".alert").empty().append("API call not yet implemented");
-				$(".alert").attr("style", "visibility:visible");
 			}
 		});
 	}
