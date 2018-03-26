@@ -26,16 +26,14 @@ export default Backbone.Router.extend({
 		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
 		
-		const homePage = new HomePage().render()
-		$('#content').empty().append(homePage.$el)
-		
 		this.loadBanner();
 		this.loadSideBar();
 	},
 
   home() {
 	$("#home-tab").addClass("active");
-    $('.collection').empty()
+	const homePage = new HomePage().render()
+	$('#content').empty().append(homePage.$el)
   },
 
   visitBoards() {
@@ -46,7 +44,7 @@ export default Backbone.Router.extend({
       this.subboardCollectionView.collection.add(data.data)
     })
     this.subboardCollectionView.render()
-    $('.collection').empty().append(this.subboardCollectionView.$el)
+    $('#content').empty().append(this.subboardCollectionView.$el)
   },
 
   visitBoard() {
@@ -55,7 +53,7 @@ export default Backbone.Router.extend({
       this.threadCollectionView.collection.add(data.data)
     })
     this.threadCollectionView.render()
-    $('.collection').empty().append(this.threadCollectionView.$el)
+    $('#content').empty().append(this.threadCollectionView.$el)
   },
 
   visitThread() {
@@ -64,16 +62,16 @@ export default Backbone.Router.extend({
       this.commentCollectionView.collection.add(data.data)
     })
     this.commentCollectionView.render()
-    $('.collection').empty().append(this.commentCollectionView.$el)
+    $('#content').empty().append(this.commentCollectionView.$el)
   },
   
   visitUsers() {
 	$("#users-tab").addClass("active");
-    $('.collection').empty()
+    $('#content').empty()
   },
   
   visitInbox() {
-    $('.collection').empty()
+    $('#content').empty()
   },
   
   loadBanner() {

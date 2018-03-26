@@ -9,7 +9,7 @@ export default Marionette.View.extend({
 	template,
 	model: new AccountModel(),
 	events: {
-		"click #mail-button": "checkMail",
+		"click #inbox-button": "checkMail",
 		"click #logout-button": "logout",
 		"click #settings-button": "toggleSettings",
 		"click #submit": "submit"
