@@ -24,9 +24,12 @@
 }
 
 body {
+  .collection {
+    overflow: hidden;
+  }
+
   .board {
     text-align: left;
-    margin-left: 5%;
     font-size: large;
     border-collapse: separate;
     border-spacing: 2em;
@@ -42,6 +45,23 @@ body {
 
   .comment {
     background-color: blue;
+  }
+
+  .post-button {
+    background-color: lightgrey;
+    color: black;
+    display: inline-block;
+    padding: 0.5em;
+    font-weight: bold;
+  }
+
+  .post-button:hover {
+    background-color: darkgray;
+  }
+
+  #post-box-text {
+    width: 90%;
+    height: 10em;
   }
 
   a {

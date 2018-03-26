@@ -10,6 +10,8 @@ import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
+import PostButtonView from './components/post-button/PostButtonView'
+import PostBoxView from "./components/post-box/PostBoxView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -17,14 +19,19 @@ export default Backbone.Router.extend({
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
     'boards/:subboard/:thread': 'visitThread',
+    'boards/:subboard/create': 'createThread',
+    'boards/:subboard/:thread': 'visitThread',
+    'boards/:subboard/:thread/create': 'createComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox'
   },
-  
+
 	initialize() {
 		this.subboardCollectionView = new SubboardCollectionView()
 		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
+		this.postButtonView = new PostButtonView()
+		this.postBoxView = new PostBoxView()
 		
 		this.loadBanner();
 		this.loadSideBar();
@@ -48,21 +55,59 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    // add post thread button
+    const postRoute = `${window.location.hash}/create`
+    this.postButtonView.model.set({
+      message: 'Post thread',
+      route: postRoute
+    })
+    this.postButtonView.render()
+    $('#content').empty().append(this.postButtonView.$el)
+
+    // add threads
     this.threadCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      this.threadCollectionView.collection.add(data.data)
+      const models = []
+      data.data.forEach((model) => {
+        const newModel = model
+        newModel.route = `${window.location.hash}/${model.password}`
+        models.push(newModel)
+      })
+      this.threadCollectionView.collection.add(models)
     })
     this.threadCollectionView.render()
     $('#content').empty().append(this.threadCollectionView.$el)
   },
 
   visitThread() {
+    // add post comment button
+    const postRoute = `${window.location.hash}/create`
+    this.postButtonView.model.set({
+      message: 'Post comment',
+      route: postRoute
+    })
+    this.postButtonView.render()
+    $('#content').empty().append(this.postButtonView.$el)
+
+    // add comments
     this.commentCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.commentCollectionView.collection.add(data.data)
     })
     this.commentCollectionView.render()
-    $('#content').empty().append(this.commentCollectionView.$el)
+    $('#content').append(this.commentCollectionView.$el)
+  },
+
+  createThread() {
+    this.postBoxView.render()
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
+  createComment() {
+    this.postBoxView.render()
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
   },
   
   visitUsers() {
@@ -73,12 +118,12 @@ export default Backbone.Router.extend({
   visitInbox() {
     $('#content').empty()
   },
-  
+
   loadBanner() {
 	  var bannerView = new BannerView().render();
 	  $("#banner").empty().append(bannerView.$el);
   },
-  
+
   loadSideBar() {
 		var content;
 		if (localStorage.getItem("token")) {
