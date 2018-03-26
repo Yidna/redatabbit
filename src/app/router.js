@@ -50,27 +50,37 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    // add post thread button
     this.postButtonView.model.set({
       message: 'Post thread'
     })
     this.postButtonView.render()
     $('.collection').empty().append(this.postButtonView.$el)
 
+    // add threads
     this.threadCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
-      this.threadCollectionView.collection.add(data.data)
+      const models = []
+      data.data.forEach((model) => {
+        const newModel = model
+        newModel.route = `${window.location.hash}/${model.password}`
+        models.push(newModel)
+      })
+      this.threadCollectionView.collection.add(models)
     })
     this.threadCollectionView.render()
     $('.collection').append(this.threadCollectionView.$el)
   },
 
   visitThread() {
+    // add post comment button
     this.postButtonView.model.set({
       message: 'Post comment'
     })
     this.postButtonView.render()
     $('.collection').empty().append(this.postButtonView.$el)
 
+    // add comments
     this.commentCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.commentCollectionView.collection.add(data.data)
