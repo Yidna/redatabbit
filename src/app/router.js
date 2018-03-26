@@ -35,11 +35,13 @@ export default Backbone.Router.extend({
 	},
 
   home() {
+	$("#home-tab").addClass("active");
     $('.collection').empty()
   },
 
   visitBoards() {
-
+	$("#boards-tab").addClass("active");
+	
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)

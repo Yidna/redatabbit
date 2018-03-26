@@ -11,12 +11,12 @@ export default Marionette.View.extend({
 	},
 	
 	boardsClick(evt) {
-		$("li").removeClass("active");
+		$("#tabs li").removeClass("active");
 		$("#boards-tab").addClass("active");
 	},
 	
 	usersClick(evt) {
-		$("li").removeClass("active");
+		$("#tabs li").removeClass("active");
 		$("#users-tab").addClass("active");
 	}
 });
