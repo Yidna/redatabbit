@@ -11,13 +11,16 @@ import SubboardCollectionView from './components/subboard/SubboardCollectionView
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
 import PostButtonView from './components/post-button/PostButtonView'
+import PostBoxView from "./components/post-box/PostBoxView";
 
 export default Backbone.Router.extend({
   routes: {
     '': 'home',
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
-    'boards/:subboard/:thread': 'visitThread'
+    'boards/:subboard/create': 'createThread',
+    'boards/:subboard/:thread': 'visitThread',
+    'boards/:subboard/:thread/create': 'createComment'
   },
 
 	initialize() {
@@ -25,6 +28,7 @@ export default Backbone.Router.extend({
 		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
     this.postButtonView = new PostButtonView()
+    this.postBoxView = new PostBoxView()
 
 		const homePage = new HomePage().render()
 		$('#content').empty().append(homePage.$el)
@@ -75,6 +79,7 @@ export default Backbone.Router.extend({
   },
 
   visitThread() {
+    // add post comment button
     const postRoute = `${window.location.hash}/create`
     this.postButtonView.model.set({
       message: 'Post comment',
@@ -90,6 +95,18 @@ export default Backbone.Router.extend({
     })
     this.commentCollectionView.render()
     $('.collection').append(this.commentCollectionView.$el)
+  },
+
+  createThread() {
+    this.postBoxView.render()
+    $('.collection').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
+  createComment() {
+    this.postBoxView.render()
+    $('.collection').empty().append(this.postBoxView.$el)
+    // TODO: post request
   },
 
   loadBanner() {
