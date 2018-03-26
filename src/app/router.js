@@ -10,6 +10,7 @@ import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
 import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
+import PostButtonView from './components/post-button/PostButtonView'
 
 export default Backbone.Router.extend({
   routes: {
@@ -18,18 +19,19 @@ export default Backbone.Router.extend({
     'boards/:subboard': 'visitBoard',
     'boards/:subboard/:thread': 'visitThread'
   },
-  
+
 	initialize() {
 		this.subboardCollectionView = new SubboardCollectionView()
 		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
-		
+    this.postButtonView = new PostButtonView()
+
 		const homePage = new HomePage().render()
 		$('#content').empty().append(homePage.$el)
 
 		const loginForm = new LoginForm().render()
 		$('#login-box').empty().append(loginForm.$el)
-		
+
 		this.loadBanner();
 		this.loadSideBar();
 	},
@@ -39,7 +41,6 @@ export default Backbone.Router.extend({
   },
 
   visitBoards() {
-
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)
@@ -49,28 +50,40 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    this.postButtonView.model.set({
+      message: 'Post thread'
+    })
+    this.postButtonView.render()
+    $('.collection').empty().append(this.postButtonView.$el)
+
     this.threadCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.threadCollectionView.collection.add(data.data)
     })
     this.threadCollectionView.render()
-    $('.collection').empty().append(this.threadCollectionView.$el)
+    $('.collection').append(this.threadCollectionView.$el)
   },
 
   visitThread() {
+    this.postButtonView.model.set({
+      message: 'Post comment'
+    })
+    this.postButtonView.render()
+    $('.collection').empty().append(this.postButtonView.$el)
+
     this.commentCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.commentCollectionView.collection.add(data.data)
     })
     this.commentCollectionView.render()
-    $('.collection').empty().append(this.commentCollectionView.$el)
+    $('.collection').append(this.commentCollectionView.$el)
   },
-  
+
   loadBanner() {
 	  var bannerView = new BannerView().render();
 	  $("#banner").empty().append(bannerView.$el);
   },
-  
+
   loadSideBar() {
 		var content;
 		if (localStorage.getItem("token")) {
