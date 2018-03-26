@@ -51,8 +51,10 @@ export default Backbone.Router.extend({
 
   visitBoard() {
     // add post thread button
+    const postRoute = `${window.location.hash}/create`
     this.postButtonView.model.set({
-      message: 'Post thread'
+      message: 'Post thread',
+      route: postRoute
     })
     this.postButtonView.render()
     $('.collection').empty().append(this.postButtonView.$el)
@@ -73,9 +75,10 @@ export default Backbone.Router.extend({
   },
 
   visitThread() {
-    // add post comment button
+    const postRoute = `${window.location.hash}/create`
     this.postButtonView.model.set({
-      message: 'Post comment'
+      message: 'Post comment',
+      route: postRoute
     })
     this.postButtonView.render()
     $('.collection').empty().append(this.postButtonView.$el)
