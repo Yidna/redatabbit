@@ -13,6 +13,8 @@ import CommentCollectionView from "./components/comment/CommentCollectionView";
 import PostButtonView from './components/post-button/PostButtonView'
 import PostBoxView from "./components/post-box/PostBoxView";
 
+import MessageCollectionView from './components/inbox/MessageCollectionView';
+
 export default Backbone.Router.extend({
   routes: {
     '': 'home',
@@ -32,6 +34,8 @@ export default Backbone.Router.extend({
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
 		this.postBoxView = new PostBoxView()
+		
+		this.messageCollectionView = new MessageCollectionView();
 		
 		this.loadBanner();
 		this.loadSideBar();
@@ -112,11 +116,26 @@ export default Backbone.Router.extend({
   
   visitUsers() {
 	$("#users-tab").addClass("active");
-    $('#content').empty()
+    $('#content').empty();
   },
   
-  visitInbox() {
-    $('#content').empty()
+  visitInbox(username) {
+    $('#content').empty();
+    this.messageCollectionView.collection.reset()
+	$.get({
+		url: "/api/messages/"+username,
+		headers: {
+			token: localStorage.getItem("token")
+		},
+		success: (data) => {
+			if (!data.success) {
+				
+			}
+			this.messageCollectionView.collection.add(data.data);
+			this.messageCollectionView.render();
+			$("#content").empty().append(this.messageCollectionView.$el);
+		}
+	});
   },
 
   loadBanner() {
