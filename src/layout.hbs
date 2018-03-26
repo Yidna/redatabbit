@@ -11,17 +11,11 @@
   {{/each}}
 </head>
 <body>
-	<div class="jumbotron">
-		<h1><a href="/">redatabbit</a></h1>
-		<ul class="nav nav-tabs pull-left">
-			<li class="active"><a href="">Home</a></li>
-			<li><a href="#/boards">Boards</a></li>
-			<li><a href="#/users">Users</a></li>
-		</ul>
-	</div>
+	<div id="banner" class="jumbotron"></div>
+	
 	<div id="content" class="col-sm-10"></div>
-	<div id="side-bar" class="col-sm-2" style="border-left: 1px solid lightgray;">
-	</div>
+	
+	<div id="side-bar" class="col-sm-2" style="border-left: 1px solid lightgray;"></div>
 
   {{#each htmlWebpackPlugin.files.js}}
     <script type="text/javascript" src="{{htmlWebpackPlugin.options.path}}{{this}}"></script>

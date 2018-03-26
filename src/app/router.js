@@ -2,6 +2,7 @@ import $ from 'jquery'
 import Backbone from 'backbone'
 import localStorage from "localStorage"
 
+import BannerView from "app/components/banner/BannerView"
 import LoginForm from "app/components/sidebar/LoginForm"
 import AccountView from "app/components/sidebar/AccountView"
 
@@ -29,6 +30,7 @@ export default Backbone.Router.extend({
 		const loginForm = new LoginForm().render()
 		$('#login-box').empty().append(loginForm.$el)
 		
+		this.loadBanner();
 		this.loadSideBar();
 	},
 
@@ -62,6 +64,11 @@ export default Backbone.Router.extend({
     })
     this.commentCollectionView.render()
     $('.collection').empty().append(this.commentCollectionView.$el)
+  },
+  
+  loadBanner() {
+	  var bannerView = new BannerView().render();
+	  $("#banner").empty().append(bannerView.$el);
   },
   
   loadSideBar() {

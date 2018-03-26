@@ -9,9 +9,14 @@ export default Marionette.View.extend({
 	template,
 	model: new AccountModel(),
 	events: {
+		"click #mail-button": "checkMail",
 		"click #logout-button": "logout",
 		"click #settings-button": "toggleSettings",
 		"click #submit": "submit"
+	},
+	
+	checkMail(evt) {
+		$("li").removeClass("active");
 	},
 	
 	logout(evt) {

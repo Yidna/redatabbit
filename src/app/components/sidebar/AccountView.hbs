@@ -1,7 +1,14 @@
-Hello <strong>{{username}}</strong>!<br/>
-You joined our fantastic cult on<br/><strong>{{date_created}}</strong>!<br/>
-<span id="settings-button" class="glyphicon glyphicon-cog pull-left" style="font-size:150%;cursor:pointer"></span>
-<span id="logout-button" class="glyphicon glyphicon-log-out pull-right" style="font-size:150%;cursor:pointer"></span><br/><br/>
+<span class="pull-left">You are logged in as:</span>
+	<strong class="pull-right">{{username}}</strong><br/>
+<span class="pull-left">You joined our fantastic cult on</span>
+	<strong class="pull-right">{{date_created}}</strong>
+<br/><br/>
+
+<a href="/#/mail/{{username}}"><span id="mail-button" class="glyphicon glyphicon-inbox pull-left" style="font-size:150%;cursor:pointer"></span></a>
+<a><span id="logout-button" class="glyphicon glyphicon-log-out pull-right" style="font-size:150%;cursor:pointer;margin-left:2%"></span></a>
+<a><span id="settings-button" class="glyphicon glyphicon-cog pull-right" style="font-size:150%;cursor:pointer"></span></a>
+<br/><br/>
+
 <div id="settings" style="visibility:hidden;height:0px">
 	<form class="form-horizontal">
 		<input id="username" class="form-control">Change Username</input>
