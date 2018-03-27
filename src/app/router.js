@@ -12,6 +12,7 @@ import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
 import PostButtonView from './components/post-button/PostButtonView'
 import PostBoxView from "./components/post-box/PostBoxView";
+import ModeratorCollectionView from "./components/moderator-list/ModeratorCollectionView";
 
 import MessageCollectionView from './components/inbox/MessageCollectionView';
 
@@ -20,10 +21,11 @@ export default Backbone.Router.extend({
     '': 'home',
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
+    'boards/:subboard/create': 'createThread', // order matters here
     'boards/:subboard/:thread': 'visitThread',
-    'boards/:subboard/create': 'createThread',
-    'boards/:subboard/:thread': 'visitThread',
+    'boards/:subboard/:thread/edit': 'editThread',
     'boards/:subboard/:thread/create': 'createComment',
+    'boards/:subboard/:thread/:comment/edit': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox'
   },
@@ -34,8 +36,8 @@ export default Backbone.Router.extend({
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
 		this.postBoxView = new PostBoxView()
-		
 		this.messageCollectionView = new MessageCollectionView();
+		this.modsView = new ModeratorCollectionView()
 		
 		this.loadBanner();
 		this.loadSideBar();
@@ -49,8 +51,9 @@ export default Backbone.Router.extend({
 
   visitBoards() {
 	$("#boards-tab").addClass("active");
-	
+
     this.subboardCollectionView.collection.reset()
+    // TODO: boards query
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)
     })
@@ -59,33 +62,46 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    // TODO: hide edit button if the post does not belong to logged in as user
+
+    // add mods list
+    $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
+    this.modsView.collection.reset()
+    // TODO: moderators query
+    $.get('/api/accounts', (data) => {
+      this.modsView.collection.add(data.data)
+    })
+    this.modsView.render()
+    $('#moderators-tag').append(this.modsView.$el)
+
     // add post thread button
-    const postRoute = `${window.location.hash}/create`
+    const postRoute = window.location.hash
     this.postButtonView.model.set({
       message: 'Post thread',
       route: postRoute
     })
     this.postButtonView.render()
-    $('#content').empty().append(this.postButtonView.$el)
+    $('#content').append(this.postButtonView.$el)
 
     // add threads
     this.threadCollectionView.collection.reset()
+    // TODO: threads query
     $.get('/api/accounts', (data) => {
       const models = []
       data.data.forEach((model) => {
         const newModel = model
-        newModel.route = `${window.location.hash}/${model.password}`
+        newModel.route = postRoute
         models.push(newModel)
       })
       this.threadCollectionView.collection.add(models)
     })
     this.threadCollectionView.render()
-    $('#content').empty().append(this.threadCollectionView.$el)
+    $('#content').append(this.threadCollectionView.$el)
   },
 
   visitThread() {
     // add post comment button
-    const postRoute = `${window.location.hash}/create`
+    const postRoute = window.location.hash
     this.postButtonView.model.set({
       message: 'Post comment',
       route: postRoute
@@ -95,8 +111,15 @@ export default Backbone.Router.extend({
 
     // add comments
     this.commentCollectionView.collection.reset()
+    // TODO: comments query
     $.get('/api/accounts', (data) => {
-      this.commentCollectionView.collection.add(data.data)
+      const models = []
+      data.data.forEach((model) => {
+        const newModel = model
+        newModel.route = postRoute
+        models.push(newModel)
+      })
+      this.commentCollectionView.collection.add(models)
     })
     this.commentCollectionView.render()
     $('#content').append(this.commentCollectionView.$el)
@@ -113,7 +136,25 @@ export default Backbone.Router.extend({
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
-  
+
+  editThread() {
+    // TODO: retrieve threadContent
+    const stubContent = 'thread user should be about to edit'
+    this.postBoxView.render()
+    this.postBoxView.$('#post-box-text').text(stubContent)
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
+  editComment() {
+    // TODO: retrieve threadContent
+    const stubContent = 'comment user should be about to edit'
+    this.postBoxView.render()
+    this.postBoxView.$('#post-box-text').text(stubContent)
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
   visitUsers() {
 	$("#users-tab").addClass("active");
     $('#content').empty();

@@ -41,10 +41,22 @@ body {
 
   .thread {
     background-color: red;
+
+    .thread-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
   }
 
   .comment {
     background-color: blue;
+
+    .comment-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
   }
 
   .post-button {
@@ -53,6 +65,7 @@ body {
     display: inline-block;
     padding: 0.5em;
     font-weight: bold;
+    margin-left: 1em;
   }
 
   .post-button:hover {
@@ -62,6 +75,19 @@ body {
   #post-box-text {
     width: 90%;
     height: 10em;
+  }
+
+  #moderators-tag {
+    margin-bottom: 1em;
+    margin-left: 1em;
+    color: darkgreen;
+    font-weight: bold;
+  }
+
+  .moderator-name {
+    color: green;
+    display: inline;
+    padding-right: 1em;
   }
 
   a {
