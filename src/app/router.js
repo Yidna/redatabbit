@@ -17,6 +17,7 @@ import ModeratorCollectionView from "./components/moderator-list/ModeratorCollec
 import MessageCollectionView from './components/inbox/MessageCollectionView';
 import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
+import SearchUsersView from "./components/search-users/SearchUsersView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -41,6 +42,7 @@ export default Backbone.Router.extend({
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
+    this.searchUsersView = new SearchUsersView()
     this.usersCollectionView = new UserCollectionView()
 
 		this.loadBanner();
@@ -165,6 +167,10 @@ export default Backbone.Router.extend({
   visitUsers() {
 	$("#users-tab").addClass("active");
 
+    // search users button
+    this.searchUsersView.render()
+    $('#content').empty().append(this.searchUsersView.$el)
+
     // add users
     this.usersCollectionView.collection.reset()
     // TODO: users query, ranked by post count
@@ -172,7 +178,8 @@ export default Backbone.Router.extend({
       this.usersCollectionView.collection.add(data.data)
     })
     this.usersCollectionView.render()
-    $('#content').empty().append(this.usersCollectionView.$el)
+    $('#content').append(this.usersCollectionView.$el)
+    $('#row0').remove()
     $('.users').append('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
   },
 

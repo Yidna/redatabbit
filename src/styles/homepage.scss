@@ -112,6 +112,29 @@ body {
 
   }
 
+  .search-users {
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+    .search-users-button {
+      background-color: lightgrey;
+      color: black;
+      display: inline-block;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .search-users-button:hover {
+      background-color: darkgray;
+    }
+
+    .search-users-form {
+      display: none;
+    }
+
+  }
+
   .users {
     margin-left: 1em;
 

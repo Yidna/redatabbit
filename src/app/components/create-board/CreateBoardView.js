@@ -15,7 +15,7 @@ export default Marionette.View.extend({
   },
 
   displayForm() {
-    $('.create-board-form').show()
+    $('.create-board-form').toggle()
   },
 
   submitForm() {
