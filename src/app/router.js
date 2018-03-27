@@ -129,11 +129,12 @@ export default Backbone.Router.extend({
 		},
 		success: (data) => {
 			if (!data.success) {
-				
+				return;
 			}
-			this.messageCollectionView.collection.add(data.data);
 			this.messageCollectionView.render();
-			$("#content").empty().append(this.messageCollectionView.$el);
+			var messageTable = $("<table></table>").addClass("table");
+			messageTable.append(this.messageCollectionView.$el);
+			$("#content").empty().append(messageTable);
 		}
 	});
   },

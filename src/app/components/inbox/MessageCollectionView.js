@@ -3,8 +3,8 @@ import MessageView from './MessageView'
 import MessageCollection from './MessageCollection'
 
 export default Marionette.CollectionView.extend({
-  childView: MessageView,
-  collection: new MessageCollection(),
-  tagName: 'table',
-  id: 'messages'
+	childView: MessageView,
+	collection: new MessageCollection(),
+	tagName: 'tbody',
+	id: 'messages',
 })

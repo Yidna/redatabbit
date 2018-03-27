@@ -6,17 +6,12 @@ import template from './BannerView.hbs'
 export default Marionette.View.extend({
 	template,
 	events: {
-		"click #boards-tab": "boardsClick",
-		"click #users-tab": "usersClick"
+		"click #tabs li": "tabClick"
 	},
 	
-	boardsClick(evt) {
+	tabClick(evt) {
+		var tabID = "#" + $(evt.currentTarget).attr("id");
 		$("#tabs li").removeClass("active");
-		$("#boards-tab").addClass("active");
-	},
-	
-	usersClick(evt) {
-		$("#tabs li").removeClass("active");
-		$("#users-tab").addClass("active");
+		$(tabID).addClass("active");
 	}
 });
