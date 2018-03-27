@@ -4,20 +4,13 @@ UBC CPSC 304 Term Project
 Andy Siu, David Kim, Ivan Gill, Justin Oh  
   
 ## Getting Started
-Snipped from StudioLabs/modern-backbone-live-starterkit
 
 ```shell
-$ npm install -g gulp karma-cli     # Install Gulp task runner and Karma test runner globally
 $ npm install                       # Install Node.js components listed in ./package.json
 ```
-
-To build and run:  
+This will install the necessary packages
 
 ```shell
-$ gulp
+$ npm run dev                       # Starts up the entire server
 ```
-
-By default, it builds in debug mode.
-
-* If you need to build in release mode, add `--type production` flag.
-* You can define a port with `--port 3333` flag.
+This will start the webpack server on port 3000 and the express server on port 9001.

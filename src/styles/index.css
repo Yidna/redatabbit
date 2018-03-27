@@ -1,0 +1,8 @@
+@import 'homepage.scss';
+
+body {
+  background-color: #FFF;
+  font-family: 'Open Sans', sans-serif;
+  transition: background-color .2s ease-in;
+}
+

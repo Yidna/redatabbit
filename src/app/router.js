@@ -1,32 +1,38 @@
-import $ from 'jquery';
-import Backbone from 'backbone';
+import $ from 'jquery'
+import Backbone from 'backbone'
 
-import HelloView from './views/hello';
-
+import HomePage from 'app/components/home-page/HomePage'
+import SubboardCollectionView from './components/subboard/SubboardCollectionView'
+import ThreadCollectionView from './components/thread/ThreadCollectionView'
 
 export default Backbone.Router.extend({
-
   routes: {
-    '': 'dashboard',
-    'about': 'about'
+    '': 'home',
+    ':subboard': 'visitBoard',
+    ':subboard/:thread': 'visitThread'
   },
 
-  initialize() {
-    $('body').append('<div id="js-app"></div>');
+  home() {
+    const homePage = new HomePage().render()
+    $('#root').empty().append(homePage.$el)
+
+    const subboardCollectionView = new SubboardCollectionView()
+    $.get('/api/accounts', (data) => {
+      subboardCollectionView.collection.add(data)
+    })
+    subboardCollectionView.render()
+    $('.collection').append(subboardCollectionView.$el)
   },
 
-  dashboard() {
-    var helloView = new HelloView().render();
+  visitBoard() {
+    $('.subboard').remove()
 
-    $('#js-app').empty().append(helloView.$el);
-  },
-
-  about() {
-    var helloView = new HelloView({
-      template: _.template('Im the about page')
-    }).render();
-
-    $('#js-app').empty().append(helloView.$el);
+    const threadCollectionView = new ThreadCollectionView()
+    $.get('/api/accounts', (data) => {
+      threadCollectionView.collection.add(data)
+    })
+    threadCollectionView.render()
+    $('.collection').append(threadCollectionView.$el)
   }
+})
 
-});
