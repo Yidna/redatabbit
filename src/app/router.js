@@ -23,6 +23,7 @@ export default Backbone.Router.extend({
     'boards/:subboard/:thread': 'visitThread',
     'boards/:subboard/:thread/edit': 'editThread',
     'boards/:subboard/:thread/create': 'createComment',
+    'boards/:subboard/:thread/:comment/edit': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox'
   },
@@ -109,7 +110,13 @@ export default Backbone.Router.extend({
     this.commentCollectionView.collection.reset()
     // TODO: comments query
     $.get('/api/accounts', (data) => {
-      this.commentCollectionView.collection.add(data.data)
+      const models = []
+      data.data.forEach((model) => {
+        const newModel = model
+        newModel.route = postRoute
+        models.push(newModel)
+      })
+      this.commentCollectionView.collection.add(models)
     })
     this.commentCollectionView.render()
     $('#content').append(this.commentCollectionView.$el)
@@ -129,7 +136,16 @@ export default Backbone.Router.extend({
 
   editThread() {
     // TODO: retrieve threadContent
-    const stubContent = 'message user should be about to edit'
+    const stubContent = 'thread user should be about to edit'
+    this.postBoxView.render()
+    console.log(this.postBoxView.$('#post-box-text').text(stubContent))
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
+  editComment() {
+    // TODO: retrieve threadContent
+    const stubContent = 'comment user should be about to edit'
     this.postBoxView.render()
     console.log(this.postBoxView.$('#post-box-text').text(stubContent))
     $('#content').empty().append(this.postBoxView.$el)

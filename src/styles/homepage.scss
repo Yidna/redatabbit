@@ -51,6 +51,12 @@ body {
 
   .comment {
     background-color: blue;
+
+    .comment-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
   }
 
   .post-button {
