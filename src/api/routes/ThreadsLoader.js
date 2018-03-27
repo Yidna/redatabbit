@@ -3,7 +3,8 @@ module.exports =
     class ThreadsLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
             router.get('/subboards/:name/threads', (req, res) => {
-				const q = 'SELECT id, title, username, date_created FROM Thread, Post WHERE subboard=?, Thread.id = Post.id'
+				//const q = 'SELECT id, title, username, date_created FROM Thread WHERE subboard=? LEFT JOIN(Post) ON (Thread.id = Post.id)'
+				const q = 'SELECT id, title, username, date_created FROM Thread t, Post p WHERE subboard=? AND t.id = p.id'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
 					  throw err
@@ -13,7 +14,7 @@ module.exports =
             })
 
             router.get('/subboards/:name/threads/:thread_id', (req, res) => {
-				const q = 'SELECT title, username, date_created, content FROM Thread t, Post p, WHERE id=?, t.id = p.id'
+				const q = 'SELECT * FROM Thread t, Post p, WHERE id=?, t.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 					  throw err
