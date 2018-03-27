@@ -35,7 +35,7 @@ module.exports =
 				})
             })
 
-            router.post('/subboards', (req, res) => {
+            router.post('/subboards/:name', (req, res) => {
 				const q = 'INSERT INTO Thread(subboard, title, username, content) VALUES (?, ?, ?, ?)'
 				this.db.query(
 				q,
