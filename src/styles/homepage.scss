@@ -90,6 +90,28 @@ body {
     padding-right: 1em;
   }
 
+  .create-board {
+    margin-left: 1em;
+
+    .create-board-button {
+      background-color: lightgrey;
+      color: black;
+      display: inline-block;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .create-board-button:hover {
+      background-color: darkgray;
+    }
+
+    .create-board-form {
+      display: none;
+    }
+
+  }
+
   a {
     color: black;
     text-decoration: none;

@@ -15,6 +15,7 @@ import PostBoxView from "./components/post-box/PostBoxView";
 import ModeratorCollectionView from "./components/moderator-list/ModeratorCollectionView";
 
 import MessageCollectionView from './components/inbox/MessageCollectionView';
+import CreateBoardView from "./components/create-board/CreateBoardView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -38,7 +39,8 @@ export default Backbone.Router.extend({
 		this.postBoxView = new PostBoxView()
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
-		
+    this.createBoardView = new CreateBoardView()
+
 		this.loadBanner();
 		this.loadSideBar();
 	},
@@ -52,13 +54,16 @@ export default Backbone.Router.extend({
   visitBoards() {
 	$("#boards-tab").addClass("active");
 
+    this.createBoardView.render()
+    $('#content').empty().append(this.createBoardView.$el)
+
     this.subboardCollectionView.collection.reset()
     // TODO: boards query
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)
     })
     this.subboardCollectionView.render()
-    $('#content').empty().append(this.subboardCollectionView.$el)
+    $('#content').append(this.subboardCollectionView.$el)
   },
 
   visitBoard() {
@@ -159,7 +164,7 @@ export default Backbone.Router.extend({
 	$("#users-tab").addClass("active");
     $('#content').empty();
   },
-  
+
   visitInbox(username) {
     $('#content').empty();
     this.messageCollectionView.collection.reset()
