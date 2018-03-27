@@ -138,7 +138,7 @@ export default Backbone.Router.extend({
     // TODO: retrieve threadContent
     const stubContent = 'thread user should be about to edit'
     this.postBoxView.render()
-    console.log(this.postBoxView.$('#post-box-text').text(stubContent))
+    this.postBoxView.$('#post-box-text').text(stubContent)
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
@@ -147,7 +147,7 @@ export default Backbone.Router.extend({
     // TODO: retrieve threadContent
     const stubContent = 'comment user should be about to edit'
     this.postBoxView.render()
-    console.log(this.postBoxView.$('#post-box-text').text(stubContent))
+    this.postBoxView.$('#post-box-text').text(stubContent)
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
