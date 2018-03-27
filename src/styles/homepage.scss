@@ -53,6 +53,7 @@ body {
     display: inline-block;
     padding: 0.5em;
     font-weight: bold;
+    margin-left: 1em;
   }
 
   .post-button:hover {
@@ -62,6 +63,19 @@ body {
   #post-box-text {
     width: 90%;
     height: 10em;
+  }
+
+  #moderators-tag {
+    margin-bottom: 1em;
+    margin-left: 1em;
+    color: darkgreen;
+    font-weight: bold;
+  }
+
+  .moderator-name {
+    color: green;
+    display: inline;
+    padding-right: 1em;
   }
 
   a {

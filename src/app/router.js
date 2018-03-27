@@ -12,6 +12,7 @@ import ThreadCollectionView from './components/thread/ThreadCollectionView'
 import CommentCollectionView from "./components/comment/CommentCollectionView";
 import PostButtonView from './components/post-button/PostButtonView'
 import PostBoxView from "./components/post-box/PostBoxView";
+import ModeratorCollectionView from "./components/moderator-list/ModeratorCollectionView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -32,6 +33,7 @@ export default Backbone.Router.extend({
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
 		this.postBoxView = new PostBoxView()
+    this.modsView = new ModeratorCollectionView()
 
 		this.loadBanner();
 		this.loadSideBar();
@@ -47,6 +49,7 @@ export default Backbone.Router.extend({
 	$("#boards-tab").addClass("active");
 
     this.subboardCollectionView.collection.reset()
+    // TODO: boards query
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)
     })
@@ -55,6 +58,16 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    // add mods list
+    $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
+    this.modsView.collection.reset()
+    // TODO: moderators query
+    $.get('/api/accounts', (data) => {
+      this.modsView.collection.add(data.data)
+    })
+    this.modsView.render()
+    $('#moderators-tag').append(this.modsView.$el)
+
     // add post thread button
     const postRoute = `${window.location.hash}/create`
     this.postButtonView.model.set({
@@ -62,10 +75,11 @@ export default Backbone.Router.extend({
       route: postRoute
     })
     this.postButtonView.render()
-    $('#content').empty().append(this.postButtonView.$el)
+    $('#content').append(this.postButtonView.$el)
 
     // add threads
     this.threadCollectionView.collection.reset()
+    // TODO: threads query
     $.get('/api/accounts', (data) => {
       const models = []
       data.data.forEach((model) => {
@@ -91,6 +105,7 @@ export default Backbone.Router.extend({
 
     // add comments
     this.commentCollectionView.collection.reset()
+    // TODO: comments query
     $.get('/api/accounts', (data) => {
       this.commentCollectionView.collection.add(data.data)
     })
