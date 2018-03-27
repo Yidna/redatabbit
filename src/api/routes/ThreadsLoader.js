@@ -3,7 +3,7 @@ module.exports =
     class ThreadsLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
             router.get('/subboards/:name/threads', (req, res) => {
-				const q = 'SELECT id, title, username, date_created FROM Thread t, Post p WHERE subboard=?, t.id = p.id'
+				const q = 'SELECT id, title, username, date_created FROM Thread, Post WHERE subboard=?, Thread.id = Post.id'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
 					  throw err
