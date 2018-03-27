@@ -21,7 +21,7 @@ export default Backbone.Router.extend({
     'boards/:subboard': 'visitBoard',
     'boards/:subboard/create': 'createThread', // order matters here
     'boards/:subboard/:thread': 'visitThread',
-    'boards/:subboard/:thread': 'visitThread',
+    'boards/:subboard/:thread/edit': 'editThread',
     'boards/:subboard/:thread/create': 'createComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox'
@@ -123,6 +123,15 @@ export default Backbone.Router.extend({
 
   createComment() {
     this.postBoxView.render()
+    $('#content').empty().append(this.postBoxView.$el)
+    // TODO: post request
+  },
+
+  editThread() {
+    // TODO: retrieve threadContent
+    const stubContent = 'message user should be about to edit'
+    this.postBoxView.render()
+    console.log(this.postBoxView.$('#post-box-text').text(stubContent))
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
