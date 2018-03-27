@@ -5,6 +5,7 @@ import localStorage from "localStorage"
 import BannerView from "app/components/banner/BannerView"
 import LoginForm from "app/components/sidebar/login/LoginForm"
 import AccountView from "app/components/sidebar/dashboard/AccountView"
+import FeaturedCollectionView from "app/components/sidebar/featured/FeaturedViewCollectionView"
 
 import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
@@ -209,33 +210,56 @@ export default Backbone.Router.extend({
   },
 
   loadSideBar() {
-		var content;
-		if (localStorage.getItem("token")) {
-			content = new AccountView();
-			$.post({
-				url: '/api/authenticate/renew',
-				headers: {
-					"token": localStorage.getItem("token")
-				},
-				success: (data) => {
-					if (!data.success) {
-						localStorage.removeItem("token");
-						location.reload();
-						return;
-					}
-					localStorage.setItem("token", data.data[0].token);
-					$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
-						data.data[0].date_created = data.data[0].date_created.substring(0, 10);
-						content.model.set(data.data[0]);
-						content.render();
-					})
+	$("#side-bar").empty().append(getUserPanel());
+	var featuredPanel = $("<div></div>").attr("id", "featuredPanel");
+	var featuredTabs = $("<ul></ul>").addClass("nav").addClass("nav-tabs");
+	
+	featuredPanel.append(featuredTabs);
+	$("#side-bar").append(getFeaturedPanel());
+  }
+
+  getUserPanel() {
+	var content;
+	if (localStorage.getItem("token")) {
+		content = new AccountView();
+		$.post({
+			url: '/api/authenticate/renew',
+			headers: {
+				"token": localStorage.getItem("token")
+			},
+			success: (data) => {
+				if (!data.success) {
+					localStorage.removeItem("token");
+					location.reload();
+					return;
 				}
-			});
+				localStorage.setItem("token", data.data[0].token);
+				$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
+					data.data[0].date_created = data.data[0].date_created.substring(0, 10);
+					content.model.set(data.data[0]);
+					content.render();
+				})
+			}
+		});
+	}
+	else {
+		content = new LoginForm().render();
+	}
+	return content.$el;
+  }
+
+  getFeaturedPanel() {
+	this.featuredCollectionView = new FeaturedCollectionView();
+	$.get({
+		url: "/api/special/boards/top",
+		success: (data) => {
+			if (!data.success) {
+				return;
+			}
+			this.featuredCollectionView.collection.add(data.data);
 		}
-		else {
-			content = new LoginForm().render();
-		}
-		$("#side-bar").empty().append(content.$el);
+	});
+	return "";
   }
 })
 
