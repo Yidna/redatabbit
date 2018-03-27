@@ -3,8 +3,8 @@ import Backbone from 'backbone'
 import localStorage from "localStorage"
 
 import BannerView from "app/components/banner/BannerView"
-import LoginForm from "app/components/sidebar/LoginForm"
-import AccountView from "app/components/sidebar/AccountView"
+import LoginForm from "app/components/sidebar/login/LoginForm"
+import AccountView from "app/components/sidebar/dashboard/AccountView"
 
 import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
