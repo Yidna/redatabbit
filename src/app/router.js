@@ -32,7 +32,7 @@ export default Backbone.Router.extend({
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
 		this.postBoxView = new PostBoxView()
-		
+
 		this.loadBanner();
 		this.loadSideBar();
 	},
@@ -45,7 +45,7 @@ export default Backbone.Router.extend({
 
   visitBoards() {
 	$("#boards-tab").addClass("active");
-	
+
     this.subboardCollectionView.collection.reset()
     $.get('/api/accounts', (data) => {
       this.subboardCollectionView.collection.add(data.data)
@@ -76,7 +76,7 @@ export default Backbone.Router.extend({
       this.threadCollectionView.collection.add(models)
     })
     this.threadCollectionView.render()
-    $('#content').empty().append(this.threadCollectionView.$el)
+    $('#content').append(this.threadCollectionView.$el)
   },
 
   visitThread() {
@@ -109,12 +109,12 @@ export default Backbone.Router.extend({
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
-  
+
   visitUsers() {
 	$("#users-tab").addClass("active");
     $('#content').empty()
   },
-  
+
   visitInbox() {
     $('#content').empty()
   },
