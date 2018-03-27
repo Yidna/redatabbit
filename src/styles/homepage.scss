@@ -117,9 +117,9 @@ body {
     margin-bottom: 1em;
 
     .search-users-button {
+      display: inline-block;
       background-color: lightgrey;
       color: black;
-      display: inline-block;
       padding: 0.5em;
       font-weight: bold;
       margin-bottom: 1em;
@@ -133,6 +133,23 @@ body {
       display: none;
     }
 
+  }
+
+  .wacky-users {
+    margin-left: 1em;
+    display: inline-block;
+
+    .wacky-users-button {
+      background-color: lightgrey;
+      color: black;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .wacky-users-button:hover {
+      background-color: darkgray;
+    }
   }
 
   .users {

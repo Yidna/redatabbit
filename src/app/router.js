@@ -19,6 +19,7 @@ import MessageCollectionView from './components/inbox/MessageCollectionView';
 import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
 import SearchUsersView from "./components/search-users/SearchUsersView";
+import WackyUsersView from "./components/wacky-users/WackyUsersView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -44,6 +45,7 @@ export default Backbone.Router.extend({
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
     this.searchUsersView = new SearchUsersView()
+    this.wackyUsersView = new WackyUsersView()
     this.usersCollectionView = new UserCollectionView()
 
 		this.loadBanner();
@@ -171,6 +173,10 @@ export default Backbone.Router.extend({
     // search users button
     this.searchUsersView.render()
     $('#content').empty().append(this.searchUsersView.$el)
+
+    // wacky users button
+    this.wackyUsersView.render()
+    $('.search-users-button').after(this.wackyUsersView.$el)
 
     // add users
     this.usersCollectionView.collection.reset()
