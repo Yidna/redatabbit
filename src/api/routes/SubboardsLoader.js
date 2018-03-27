@@ -14,7 +14,7 @@ module.exports =
 
       router.get('/subboards/:name', (req, res) => {
         const q = 'SELECT * FROM Subboard WHERE name=?'
-        this.db.query(q, [req.param.name], (err, rows) => {
+        this.db.query(q, [req.params.name], (err, rows) => {
           if (err) {
             throw err
           }
@@ -23,8 +23,8 @@ module.exports =
       })
 
       router.put('/subboards/:name', (req, res) => {
-        const q = 'UPDATE name=?, date_created=? FROM Subboard WHERE name=?'
-        this.db.query(q, [req.body.name, req.body.date_created, req.param.name], (err, rows) => {
+        const q = 'UPDATE Subboard SET  name=?, date_created=? WHERE name=?'
+        this.db.query(q, [req.body.name, req.body.date_created, req.params.name], (err, rows) => {
           if (err) {
             throw err
           }
@@ -44,7 +44,7 @@ module.exports =
 
       router.delete('/subboards/:name', (req, res) => {
         const q = 'DELETE FROM Subboard WHERE name=?'
-        this.db.query(q, [req.param.name], (err, rows) => {
+        this.db.query(q, [req.params.name], (err, rows) => {
           if (err){
             throw err
           }
