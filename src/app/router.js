@@ -17,6 +17,7 @@ import ModeratorCollectionView from "./components/moderator-list/ModeratorCollec
 
 import MessageCollectionView from './components/inbox/MessageCollectionView';
 import CreateBoardView from "./components/create-board/CreateBoardView";
+import UserCollectionView from "./components/user-list/UserCollectionView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -41,6 +42,7 @@ export default Backbone.Router.extend({
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
+    this.usersCollectionView = new UserCollectionView()
 
 		this.loadBanner();
 		this.loadSideBar();
@@ -163,7 +165,16 @@ export default Backbone.Router.extend({
 
   visitUsers() {
 	$("#users-tab").addClass("active");
-    $('#content').empty();
+
+    // add users
+    this.usersCollectionView.collection.reset()
+    // TODO: users query, ranked by post count
+    $.get('/api/accounts', (data) => {
+      this.usersCollectionView.collection.add(data.data)
+    })
+    this.usersCollectionView.render()
+    $('#content').empty().append(this.usersCollectionView.$el)
+    $('.users').append('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
   },
 
   visitInbox(username) {
