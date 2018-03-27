@@ -3,7 +3,7 @@ module.exports =
     class ThreadsLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
             router.get('/subboards/:name/threads', (req, res) => {
-				const q = 'SELECT id, title, username, date_created FROM Thread WHERE subboard=?'
+				const q = 'SELECT id, title, username, date_created FROM Thread t, Post p WHERE subboard=?, t.id = p.id'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
 					  throw err
@@ -13,7 +13,7 @@ module.exports =
             })
 
             router.get('/subboards/:name/threads/:thread_id', (req, res) => {
-				const q = 'SELECT title, username, date_created, content FROM Thread WHERE id=?'
+				const q = 'SELECT title, username, date_created, content FROM Thread t, Post p, WHERE id=?, t.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 					  throw err
@@ -36,10 +36,11 @@ module.exports =
             })
 
             router.post('/subboards/:name', (req, res) => {
-				const q = 'INSERT INTO Thread(subboard, title, username, content) VALUES (?, ?, ?, ?)'
+				var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
+				q += 'INSERT INTO Thread(id, subboard, title) VALUES (LAST_INSERT_ID(), ?, ?)'
 				this.db.query(
 				q,
-				[req.body.subboard_name, req.body.title, req.body.username, req.body.text],
+				[req.body.username, req.body.text, req.body.subboard_name, req.body.title],
 				(err, rows) => {
 					if (err) {
 						throw err
@@ -49,7 +50,7 @@ module.exports =
             })
 			
 			router.delete('/subboards/:name', (req, res) => {
-				const q = 'DELETE FROM Thread WHERE id=?'
+				const q = 'DELTE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 				if (err) {
 					throw err
