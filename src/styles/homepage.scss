@@ -41,6 +41,12 @@ body {
 
   .thread {
     background-color: red;
+
+    .thread-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
   }
 
   .comment {

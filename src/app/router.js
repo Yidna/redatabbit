@@ -58,6 +58,8 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
+    // TODO: hide edit button if the post does not belong to logged in as user
+
     // add mods list
     $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
     this.modsView.collection.reset()
