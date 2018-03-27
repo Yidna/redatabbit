@@ -19,8 +19,8 @@ export default Backbone.Router.extend({
     '': 'home',
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
+    'boards/:subboard/create': 'createThread', // order matters here
     'boards/:subboard/:thread': 'visitThread',
-    'boards/:subboard/create': 'createThread',
     'boards/:subboard/:thread': 'visitThread',
     'boards/:subboard/:thread/create': 'createComment',
 	'users': 'visitUsers',
@@ -71,7 +71,7 @@ export default Backbone.Router.extend({
     $('#moderators-tag').append(this.modsView.$el)
 
     // add post thread button
-    const postRoute = `${window.location.hash}/create`
+    const postRoute = window.location.hash
     this.postButtonView.model.set({
       message: 'Post thread',
       route: postRoute
@@ -86,7 +86,7 @@ export default Backbone.Router.extend({
       const models = []
       data.data.forEach((model) => {
         const newModel = model
-        newModel.route = `${window.location.hash}/${model.password}`
+        newModel.route = postRoute
         models.push(newModel)
       })
       this.threadCollectionView.collection.add(models)
@@ -97,7 +97,7 @@ export default Backbone.Router.extend({
 
   visitThread() {
     // add post comment button
-    const postRoute = `${window.location.hash}/create`
+    const postRoute = window.location.hash
     this.postButtonView.model.set({
       message: 'Post comment',
       route: postRoute
