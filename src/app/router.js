@@ -66,7 +66,7 @@ export default Backbone.Router.extend({
 
     this.subboardCollectionView.collection.reset()
     // TODO: boards query
-    $.get('/api/accounts', (data) => {
+    $.get('/api/subboards', (data) => {
       this.subboardCollectionView.collection.add(data.data)
     })
     this.subboardCollectionView.render()
