@@ -3,7 +3,7 @@ module.exports =
     class ThreadsLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
             router.get('/subboards/:name/threads', (req, res) => {
-				const q = 'SELECT thread_id, title, username, date_created FROM Thread WHERE subboard_name=?'
+				const q = 'SELECT id, title, username, date_created FROM Thread WHERE subboard=?'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
 					  throw err
@@ -13,7 +13,7 @@ module.exports =
             })
 
             router.get('/subboards/:name/threads/:thread_id', (req, res) => {
-				const q = 'SELECT thread_id, subboard_name, title, username, text, date_created FROM Thread WHERE thread_id=?'
+				const q = 'SELECT title, username, date_created, content FROM Thread WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 					  throw err
@@ -23,7 +23,7 @@ module.exports =
             })
 
             router.put('/subboards/:name/threads/:thread_id', (req, res) => {
-				const q = 'UPDATE Thread SET title=?, text=? WHERE thread_id=?'
+				const q = 'UPDATE Thread SET title=?, content=? WHERE id=?'
 				this.db.query(
 				q,
 				[req.body.title, req.body.text, req.body.thread_id],
@@ -35,12 +35,11 @@ module.exports =
 				})
             })
 
-			// TODO: id, timestamp
             router.post('/subboards', (req, res) => {
-				const q = 'INSERT INTO Thread(thread_id, subboard_name, title, username, text, date_created) VALUES (?, ?, ?, ?, ?, ?)'
+				const q = 'INSERT INTO Thread(subboard, title, username, content) VALUES (?, ?, ?, ?)'
 				this.db.query(
 				q,
-				[req.body.thread_id, req.body.subboard_name, req.body.title, req.body.username, req.body.text, req.body.date_created],
+				[req.body.subboard_name, req.body.title, req.body.username, req.body.text],
 				(err, rows) => {
 					if (err) {
 						throw err
@@ -50,7 +49,7 @@ module.exports =
             })
 			
 			router.delete('/subboards/:name', (req, res) => {
-				const q = 'DELETE FROM Thread WHERE thread_id=?'
+				const q = 'DELETE FROM Thread WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 				if (err) {
 					throw err
