@@ -12,8 +12,9 @@ export default Marionette.View.extend({
 
   onRender() {
     const user = localStorage.getItem('username')
+    const loggedIn = localStorage.getItem('token')
     const threadOP = this.model.get('username')
-    if (user !== threadOP) {
+    if (!loggedIn || user !== threadOP) {
       this.$('.edit').hide()
     }
   }
