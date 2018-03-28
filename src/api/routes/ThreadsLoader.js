@@ -57,7 +57,7 @@ module.exports =
 				})
             })
 			
-			router.delete('/subboards/:subboard_name', (req, res) => {
+			router.delete('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
 				const q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
 				this.db.query(q, [req.body.thread_id], (err, rows) => {
 				if (err) {
