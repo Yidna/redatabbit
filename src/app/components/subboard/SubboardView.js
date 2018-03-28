@@ -10,24 +10,4 @@ export default Marionette.View.extend({
   tagName: 'tr',
   className: 'subboard',
   model: new SubboardModel(), // is this necessary?
-
-  initialize() {
-    this.subboardCollectionView = new SubboardCollectionView()
-  },
-
-  events: {
-    'click .delete-subboard': 'deleteSubboard'
-  },
-
-  deleteSubboard() {
-    // console.log(this.subboardCollectionView)
-    const name = this.model.get('name')
-    $.ajax({
-      method: 'DELETE',
-      url: `/api/subboards/${name}`,
-      success: (data) => {
-        this.subboardCollectionView.collection.remove(this.model)
-      }
-    })
-  }
 })
