@@ -28,14 +28,11 @@ export default Marionette.View.extend({
     const input = $('#search-users-field').val()
 
     // add users satisfying search loop
-    $('.users').remove()
+    // $('.users').remove()
     this.usersCollectionView.collection.reset()
-    // TODO: search users query
-    $.get('/api/accounts', (data) => {
-      this.usersCollectionView.collection.add(data.data)
+    $.get(`/api/accounts/${input}`, (data)=> {
+        this.usersCollectionView.collection.add(data.data)
     })
-    this.usersCollectionView.render()
-    $('#content').append(this.usersCollectionView.$el)
     $('#row0').remove()
     $('.users').append('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
   }
