@@ -59,7 +59,7 @@ module.exports =
 			
 			router.delete('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
 				const q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
-				this.db.query(q, [req.params.thread_id], (err, rows) => {
+				this.db.query(q, [req.params.thread_id, req.params.thread_id], (err, rows) => {
 				if (err) {
 					return this.sendError(res, err)
 				}
