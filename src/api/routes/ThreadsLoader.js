@@ -23,6 +23,14 @@ module.exports =
             })
 
             router.put('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
+				/*if (!req.headers.token) {
+					return this.sendError(res, "potato");
+				}
+				var auth = this.authenticate(req.headers.token);
+				if (auth == "") {
+					return this.sendError(res, "nope");
+				}*/
+				
 				var q = 'UPDATE Post SET content=? WHERE id=?'
 				this.db.query(
 				q,
@@ -38,9 +46,6 @@ module.exports =
             router.post('/subboards/:subboard_name', (req, res) => {
 				var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
 				q += 'INSERT INTO Thread(id, subboard, title) VALUES (LAST_INSERT_ID(), ?, ?)'
-				/*var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
-				q += '@id = LAST_INSERT_ID();'
-				q += 'INSERT INTO Thread(id, subboard, title) VALUES (@id, ?, ?)'*/
 				this.db.query(
 				q,
 				[req.body.username, req.body.text, req.params.subboard_name, req.body.title],
