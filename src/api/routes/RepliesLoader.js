@@ -3,7 +3,7 @@ module.exports =
     class RepliesLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
             router.get('/subboards/:name/threads/:thread_id', (req, res) => {
-				const q = 'SELECT id, username, date_created, content FROM Reply r, Post p WHERE thread=?, r.id = p.id'
+				const q = 'SELECT p.id, username, date_created, content FROM Reply r, Post p WHERE thread=? AND r.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 					  throw err
