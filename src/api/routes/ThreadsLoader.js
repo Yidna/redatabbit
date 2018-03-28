@@ -4,7 +4,7 @@ module.exports =
         loadRoutes(router) {
             router.get('/subboards/:name/threads', (req, res) => {
 				//const q = 'SELECT id, title, username, date_created FROM Thread WHERE subboard=? LEFT JOIN(Post) ON (Thread.id = Post.id)'
-				const q = 'SELECT id, title, username, date_created FROM Thread t, Post p WHERE subboard=? AND t.id = p.id'
+				const q = 'SELECT t.id, title, username, date_created FROM Thread t, Post p WHERE subboard=? AND t.id = p.id'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
 					  throw err
