@@ -1,9 +1,12 @@
 view list of subboards
 	- search
 		- average posts per user per subboard sorted asc/desc
+		- OR: average posters per user per subboard -> AND THEN EITHER THE MAX/MIN
+		  - user has option to select max or min
 	- click on a subboard
 		- view list of moderators for that subboard
 		-gets list of threads in that subboard
+		  - SEARCH: either users who have posted here, or titles
 			- get list of comments in that thread
 				- create new comment
 				- edit comment (pseudo-delete)
@@ -24,4 +27,5 @@ view profile
 	- view messages
 		- create message
 		- edit message
+		- delete all messages by either inputted USER NAME or inputted DATE
 register
