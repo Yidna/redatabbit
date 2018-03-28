@@ -20,7 +20,7 @@ export default Marionette.View.extend({
   },
 
   deleteSubboard() {
-    console.log(this.subboardCollectionView)
+    // console.log(this.subboardCollectionView)
     const name = this.model.get('name')
     $.ajax({
       method: 'DELETE',

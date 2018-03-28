@@ -26,17 +26,30 @@ export default Marionette.View.extend({
   submitForm() {
     const input = $('#create-board-field').val()
     const date = new Date().toISOString().substring(0, 19).replace('T', ' ')
-    $('#create-board-field').val('')
-    $('.create-board-form').hide()
-    $.post('/api/subboards', {
-        name: input,
-        date: date
-      },
-      () => {
-        this.subboardCollectionView.collection.add({
+    const token = localStorage.getItem('token');
+    if (input.length > 0) {
+      $('#create-board-field').val('')
+      $('.create-board-form').hide()
+      $.ajax({
+        method: 'POST',
+        url: '/api/subboards/',
+        headers: {
+          token: token
+        },
+        data: {
           name: input,
-          date: date
-        })
+          date_created: date
+        },
+        success: (data) => {
+          if (!data.success) {
+            alert(data.message.sqlMessage)
+          } else {
+            this.subboardCollectionView.collection.add({
+              name: input
+            })
+          }
+        }
       })
+    }
   }
 })
