@@ -23,15 +23,51 @@ module.exports =
             })
 
             router.put('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
-				/*if (!req.headers.token) {
-					return this.sendError(res, "potato");
+				if (!req.headers.token) {
+					return this.sendError(res, "No token");
 				}
 				var auth = this.authenticate(req.headers.token);
 				if (auth == "") {
-					return this.sendError(res, "nope");
-				}*/
+					return this.sendError(res, "No user in token");
+				}
 				
-				var q = 'UPDATE Post SET content=? WHERE id=?'
+				// get thread
+				const q = 'SELECT * FROM Post WHERE id=?'
+				this.db.query(q, [req.params.thread_id], (err, rows) => {
+					if (err) {
+						return this.sendError(res, err)
+					}
+				})
+				
+				if (rows.length != 1) {
+					return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
+				}
+				
+				// if user is not OP, check if mod
+				if (rows[0].username !== auth) {
+					// get moderates
+					q = 'SELECT * FROM Moderates WHERE username=?'
+					this.db.query(q, [auth], (err, rows) => {
+						if (err) {
+							return this.sendError(res, err)
+						}
+					})
+					
+					// check if user is mod for this board
+					var isMod = false;
+					for (var i = 0; i < rows.length; i++) {
+						if (rows[i].subboard === req.params.subboard_name) {
+							isMod = true;
+							break;
+						}
+					}
+					if (isMod == false) {
+						return this.sendError(res, "Not a mod for this board")
+					}
+				}
+				
+				// finally update
+				q = 'UPDATE Post SET content=? WHERE id=?'
 				this.db.query(
 				q,
 				[req.body.text, req.params.thread_id],
@@ -44,11 +80,19 @@ module.exports =
             })
 
             router.post('/subboards/:subboard_name', (req, res) => {
+				if (!req.headers.token) {
+					return this.sendError(res, "No token");
+				}
+				var auth = this.authenticate(req.headers.token);
+				if (auth == "") {
+					return this.sendError(res, "No user in token");
+				}
+				
 				var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
 				q += 'INSERT INTO Thread(id, subboard, title) VALUES (LAST_INSERT_ID(), ?, ?)'
 				this.db.query(
 				q,
-				[req.body.username, req.body.text, req.params.subboard_name, req.body.title],
+				[auth, req.body.text, req.params.subboard_name, req.body.title],
 				(err, rows) => {
 					if (err) {
 						return this.sendError(res, err)
@@ -58,7 +102,51 @@ module.exports =
             })
 			
 			router.delete('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
-				const q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
+				if (!req.headers.token) {
+					return this.sendError(res, "No token");
+				}
+				var auth = this.authenticate(req.headers.token);
+				if (auth == "") {
+					return this.sendError(res, "No user in token");
+				}
+				
+				// get thread
+				var q = 'SELECT * FROM Post WHERE id=?'
+				this.db.query(q, [req.params.thread_id], (err, rows) => {
+					if (err) {
+						return this.sendError(res, err)
+					}
+				})
+				
+				if (rows.length != 1) {
+					return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
+				}
+				
+				// if user is not OP, check if mod
+				if (rows[0].username !== auth) {
+					// get moderates
+					q = 'SELECT * FROM Moderates WHERE username=?'
+					this.db.query(q, [auth], (err, rows) => {
+						if (err) {
+							return this.sendError(res, err)
+						}
+					})
+					
+					// check if user is mod for this board
+					var isMod = false;
+					for (var i = 0; i < rows.length; i++) {
+						if (rows[i].subboard === req.params.subboard_name) {
+							isMod = true;
+							break;
+						}
+					}
+					if (isMod == false) {
+						return this.sendError(res, "Not a mod for this board")
+					}
+				}
+				
+				// finally delete
+				q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id, req.params.thread_id], (err, rows) => {
 				if (err) {
 					return this.sendError(res, err)
