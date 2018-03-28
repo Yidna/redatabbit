@@ -6,7 +6,7 @@ module.exports =
 				const q = 'SELECT p.id, username, date_created, content FROM Reply r, Post p WHERE thread=? AND r.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
-					  throw err
+					  return this.sendError(res, err)
 					}
 					return this.sendSuccessData(res, rows)
 				})
@@ -16,7 +16,7 @@ module.exports =
                 const q = 'UPDATE Post SET content=? WHERE id=?'
 				this.db.query(q, [req.params.text, req.params.comment_id], (err, rows) => {
 					if (err) {
-					  throw err
+					  return this.sendError(res, err)
 					}
 					return this.sendSuccess(res)
 				})
@@ -30,7 +30,7 @@ module.exports =
 				[req.body.username, req.body.text, req.body.thread_id],
 				(err, rows) => {
 					if (err) {
-						throw err
+						return this.sendError(res, err)
 					}
 					return this.sendSuccess(res)
 				})

@@ -6,7 +6,7 @@ module.exports =
 				const q = 'SELECT p.id, title, username, date_created FROM Thread t, Post p WHERE subboard=? AND t.id = p.id'
 				this.db.query(q, [req.params.subboard_name], (err, rows) => {
 					if (err) {
-					  throw err
+					  return this.sendError(res, err)
 					}
 					return this.sendSuccessData(res, rows)
 				})
@@ -16,7 +16,7 @@ module.exports =
 				const q = 'SELECT * FROM Thread t, Post p WHERE p.id=? AND t.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
-					  throw err
+					  return this.sendError(res, err)
 					}
 					return this.sendSuccessData(res, rows)
 				})
@@ -29,7 +29,7 @@ module.exports =
 				[req.body.text, req.params.thread_id],
 				(err, rows) => {
 					if (err) {
-						throw err
+						return this.sendError(res, err)
 					}
 					return this.sendSuccess(res)
 				})
@@ -46,7 +46,7 @@ module.exports =
 				[req.body.username, req.body.text, req.params.subboard_name, req.body.title],
 				(err, rows) => {
 					if (err) {
-						throw err
+						return this.sendError(res, err)
 					}
 					return this.sendSuccess(res)
 				})
@@ -56,7 +56,7 @@ module.exports =
 				const q = 'DELTE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
 				this.db.query(q, [req.body.thread_id], (err, rows) => {
 				if (err) {
-					throw err
+					return this.sendError(res, err)
 				}
 				return this.sendSuccess(res)
 				})
