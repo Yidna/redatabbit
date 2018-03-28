@@ -31,7 +31,11 @@ export default Marionette.View.extend({
     // $('.users').remove()
     this.usersCollectionView.collection.reset()
     $.get(`/api/accounts/${input}`, (data)=> {
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
         this.usersCollectionView.collection.add(data.data)
+      }
     })
     $('#row0').remove()
     $('.users').append('<tr id="row0"><td>User name</td><td>Post count</td></tr>')

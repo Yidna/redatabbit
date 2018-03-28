@@ -67,7 +67,11 @@ export default Backbone.Router.extend({
     this.subboardCollectionView.collection.reset()
     // TODO: boards query
     $.get('/api/subboards', (data) => {
-      this.subboardCollectionView.collection.add(data.data)
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        this.subboardCollectionView.collection.add(data.data)
+      }
     })
     this.subboardCollectionView.render()
     $('#content').append(this.subboardCollectionView.$el)
@@ -81,7 +85,11 @@ export default Backbone.Router.extend({
     this.modsView.collection.reset()
     // TODO: moderators query
     $.get('/api/accounts', (data) => {
-      this.modsView.collection.add(data.data)
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        this.modsView.collection.add(data.data)
+      }
     })
     this.modsView.render()
     $('#moderators-tag').append(this.modsView.$el)
@@ -99,13 +107,17 @@ export default Backbone.Router.extend({
     this.threadCollectionView.collection.reset()
     // TODO: threads query
     $.get('/api/accounts', (data) => {
-      const models = []
-      data.data.forEach((model) => {
-        const newModel = model
-        newModel.route = postRoute
-        models.push(newModel)
-      })
-      this.threadCollectionView.collection.add(models)
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        const models = []
+        data.data.forEach((model) => {
+          const newModel = model
+          newModel.route = postRoute
+          models.push(newModel)
+        })
+        this.threadCollectionView.collection.add(models)
+      }
     })
     this.threadCollectionView.render()
     $('#content').append(this.threadCollectionView.$el)
@@ -125,13 +137,17 @@ export default Backbone.Router.extend({
     this.commentCollectionView.collection.reset()
     // TODO: comments query
     $.get('/api/accounts', (data) => {
-      const models = []
-      data.data.forEach((model) => {
-        const newModel = model
-        newModel.route = postRoute
-        models.push(newModel)
-      })
-      this.commentCollectionView.collection.add(models)
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        const models = []
+        data.data.forEach((model) => {
+          const newModel = model
+          newModel.route = postRoute
+          models.push(newModel)
+        })
+        this.commentCollectionView.collection.add(models)
+      }
     })
     this.commentCollectionView.render()
     $('#content').append(this.commentCollectionView.$el)
@@ -182,7 +198,11 @@ export default Backbone.Router.extend({
     this.usersCollectionView.collection.reset()
     // TODO: users query, ranked by post count
     $.get('/api/accounts', (data) => {
-      this.usersCollectionView.collection.add(data.data)
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        this.usersCollectionView.collection.add(data.data)
+      }
     })
     this.usersCollectionView.render()
     $('#content').append(this.usersCollectionView.$el)
