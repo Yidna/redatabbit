@@ -7,7 +7,7 @@ module.exports =
                 const q = 'SELECT * FROM Personal_Message'
                 this.db.query(q, (err, rows) => {
                     if(err){
-                        throw err
+                        return this.sendError(res, err)
                     }
                     return this.sendSuccessData(res, rows)
                 })
@@ -17,7 +17,7 @@ module.exports =
                 const q = 'SELECT * FROM Personal_Message WHERE to_account=?'
                 this.db.query(q, [req.params.to_account], (err, rows) => {
                     if(err){
-                        throw err
+                        return this.sendError(res, err)
                     }
                     return this.sendSuccessData(res, rows)
                 })
@@ -30,7 +30,7 @@ module.exports =
                     [req.params.from_account, req.body.to_account, req.body.content],
                     (err) => {
                         if (err) {
-                            throw err
+                            return this.sendError(res, err)
                         }
                         return this.sendSuccess(res)
                 })
@@ -40,7 +40,7 @@ module.exports =
                 const q = 'DELETE FROM Personal_Message WHERE id=?'
                 this.db.query(q, [req.params.id], (err) =>{
                     if (err) {
-                        throw err
+                        return this.sendError(res, err)
                     }
                     return this.sendSuccess(res)
                 })

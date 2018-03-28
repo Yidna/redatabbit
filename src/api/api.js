@@ -11,7 +11,8 @@ const db = MySQL.createConnection({
   host: Config.host,
   user: Config.user,
   password: Config.password,
-  database: Config.database
+  database: Config.database,
+  multipleStatements: true
 })
 db.connect()
 
