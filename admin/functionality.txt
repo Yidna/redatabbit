@@ -1,27 +1,27 @@
 view list of subboards
 	- search
-		- average posts per user per subboard sorted asc/desc
+		- average posts per user per subboard sorted asc/desc	# TODO/
 	- click on a subboard
-		- view list of moderators for that subboard
-		-gets list of threads in that subboard
-			- get list of comments in that thread
-				- create new comment
-				- edit comment (pseudo-delete)
-			- create new thread
-			- edit thread
+		- view list of moderators for that subboard				# Completed/D
+		- gets list of threads in that subboard					# Completed/J
+			- get list of comments in that thread				# Completed/J
+				- create new comment							# Completed/J
+				- edit comment (pseudo-delete)					# Completed/J
+			- create new thread									# Completed/J
+			- edit thread										# Completed/J
 view list of users
-	- search
-	- rank by post count
-	- view all users who have posted in every board
-create a new subboard
-	- promote person to moderator
-delete subboard
-	- remove person from moderates
+	- search                                        			# Completed/I
+	- rank by post count                            			# TODO/D
+	- view all users who have posted in every board 			# TODO/D
+create a new subboard											# Completed/D
+	- promote person to moderator                   			# Completed/D
+delete subboard													# Completed/D     NO MORE???
+	- remove person from moderates								# TODO/D          WHERE ??
 view profile
 	- change username (NO SPACES)
 	- change password
 	- view all boards you have participated in
-	- view messages
-		- create message
-		- edit message
+	- view messages												# Completed/D
+		- create message										# Completed/D
+		- edit message											# Completed/D
 register
