@@ -36,7 +36,7 @@ module.exports =
         const q = 'INSERT INTO Account(username, password, is_moderator) VALUES (?, ?, ?)'
         this.db.query(
           q,
-          [req.body.username, req.body.password, req.body.is_modetator],
+          [req.body.username, req.body.password, req.body.is_moderator],
           (err) => {
             if (err) {
               return this.sendError(res, err)
