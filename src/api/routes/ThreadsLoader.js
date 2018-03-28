@@ -23,10 +23,10 @@ module.exports =
             })
 
             router.put('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
-				const q = 'UPDATE Thread SET title=?, content=? WHERE id=?'
+				var q = 'UPDATE Post SET content=? WHERE id=?'
 				this.db.query(
 				q,
-				[req.body.title, req.body.text, req.params.thread_id],
+				[req.body.text, req.params.thread_id],
 				(err, rows) => {
 					if (err) {
 						throw err
