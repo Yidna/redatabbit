@@ -6,7 +6,7 @@ module.exports =
         const q = 'SELECT username, date_created FROM Account'
         this.db.query(q, (err, rows) => {
           if (err) {
-            throw err
+            return this.sendError(res, err)
           }
           return this.sendSuccessData(res, rows)
         })
@@ -16,7 +16,7 @@ module.exports =
         const q = 'SELECT username, date_created FROM Account WHERE username=?'
         this.db.query(q, [req.params.username], (err, rows) => {
           if (err) {
-            throw err
+            return this.sendError(res, err)
           }
           return this.sendSuccessData(res, rows)
         })
@@ -26,7 +26,7 @@ module.exports =
         const q = 'UPDATE Account SET username=?, password=?, is_moderator=? WHERE username=?'
         this.db.query(q, [req.body.username, req.body.password, req.body.is_moderator, req.params.username], (err, rows) => {
           if (err) {
-            throw err
+            return this.sendError(res, err)
           }
           return this.sendSuccess(res)
         })
@@ -39,7 +39,7 @@ module.exports =
           [req.body.username, req.body.password, req.body.is_modetator],
           (err) => {
             if (err) {
-              throw err
+              return this.sendError(res, err)
             }
             return this.sendSuccess(res)
           })
@@ -49,17 +49,23 @@ module.exports =
         const q = 'TRUNCATE Account'
         this.db.query(q, (err) => {
           if (err) {
-            throw err
+            return this.sendError(res, err)
           }
           return this.sendSuccess(res)
         })
       })
+// Only for those need login
+// check if req.headers.token exists
+//   if does, check token is expired by this.authenticate(req.headers.token)
+//       if valid, check this.authenticate(req.headers.token) returns username or not
+//       else throw an error
+//   else this.sendError(res, "tomato")
 
       router.delete('/accounts/:username', (req, res) => {
         const q = 'DELETE FROM Account WHERE username=?'
         this.db.query(q, [req.params.username], (err) => {
           if (err) {
-            throw err
+            return this.sendError(res, err)
           }
           return this.sendSuccess(res)
         })
