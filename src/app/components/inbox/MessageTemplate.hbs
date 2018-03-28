@@ -1,0 +1,14 @@
+<td class="col-sm-2">
+	<a id="expand-{{id}}"><span class="glyphicon glyphicon-plus" style="font-size:150%;cursor:pointer"></span></a>
+	<a id="reply-{{id}}" href="/#/messages/{{to_account}}/compose/{{from_account}}"><span class="glyphicon glyphicon-share-alt" style="font-size:150%;cursor:pointer"></span></a>
+</td>
+<td class="col-sm-8">
+	<strong>From:</strong> {{from_account}}
+	<div id="message-{{id}}" style="visibility:hidden;height:0px">
+		{{content}}
+	</div>
+</td>
+<td class="col-sm-2">
+	<a id="delete-{{id}}"><span class="glyphicon glyphicon-trash" style="font-size:150%;cursor:pointer"></span></a>
+	<span id="confirm-delete-{{id}}" class="alert alert-danger" style="display:none">Click again to confirm</span>
+</td>

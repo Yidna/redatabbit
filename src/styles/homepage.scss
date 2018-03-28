@@ -24,9 +24,12 @@
 }
 
 body {
+  .collection {
+    overflow: hidden;
+  }
+
   .board {
     text-align: left;
-    margin-left: 5%;
     font-size: large;
     border-collapse: separate;
     border-spacing: 2em;
@@ -38,6 +41,128 @@ body {
 
   .thread {
     background-color: red;
+
+    .thread-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
+  }
+
+  .comment {
+    background-color: blue;
+
+    .comment-button {
+      color: white;
+      display: inline;
+      margin-right: 2em;
+    }
+  }
+
+  .post-button {
+    background-color: lightgrey;
+    color: black;
+    display: inline-block;
+    padding: 0.5em;
+    font-weight: bold;
+    margin-left: 1em;
+  }
+
+  .post-button:hover {
+    background-color: darkgray;
+  }
+
+  #post-box-text {
+    width: 90%;
+    height: 10em;
+  }
+
+  #moderators-tag {
+    margin-bottom: 1em;
+    margin-left: 1em;
+    color: darkgreen;
+    font-weight: bold;
+  }
+
+  .moderator-name {
+    color: green;
+    display: inline;
+    padding-right: 1em;
+  }
+
+  .create-board {
+    margin-left: 1em;
+
+    .create-board-button {
+      background-color: lightgrey;
+      color: black;
+      display: inline-block;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .create-board-button:hover {
+      background-color: darkgray;
+    }
+
+    .create-board-form {
+      display: none;
+    }
+
+  }
+
+  .search-users {
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+    .search-users-button {
+      display: inline-block;
+      background-color: lightgrey;
+      color: black;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .search-users-button:hover {
+      background-color: darkgray;
+    }
+
+    .search-users-form {
+      display: none;
+    }
+
+  }
+
+  .wacky-users {
+    margin-left: 1em;
+    display: inline-block;
+
+    .wacky-users-button {
+      background-color: lightgrey;
+      color: black;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .wacky-users-button:hover {
+      background-color: darkgray;
+    }
+  }
+
+  .users {
+    margin-left: 1em;
+
+    #row0 {
+      font-weight: bold;
+    }
+
+    td {
+      border-style: solid;
+      padding: 0.5em;
+    }
   }
 
   a {

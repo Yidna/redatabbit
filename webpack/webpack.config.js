@@ -47,7 +47,7 @@ const config = {
     }),
     new HtmlWebpackPlugin({
       filename: '../public/index.html',
-      template: path.resolve(__dirname, '..', 'src', 'html.hbs'),
+      template: path.resolve(__dirname, '..', 'src', 'layout.hbs'),
       inject: false,
       alwaysWriteToDisk: true,
       path: !DEBUG ? '/public' : ''
