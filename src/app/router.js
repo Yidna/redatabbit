@@ -5,7 +5,7 @@ import localStorage from "localStorage"
 import BannerView from "app/components/banner/BannerView"
 import LoginForm from "app/components/sidebar/login/LoginForm"
 import AccountView from "app/components/sidebar/dashboard/AccountView"
-import FeaturedCollectionView from "app/components/sidebar/featured/FeaturedViewCollectionView"
+import FeaturedView from "app/components/sidebar/featured/FeaturedView"
 
 import HomePage from 'app/components/home-page/HomePage'
 import SubboardCollectionView from './components/subboard/SubboardCollectionView'
@@ -203,13 +203,20 @@ export default Backbone.Router.extend({
   },
 
   loadSideBar() {
-	$("#side-bar").empty().append(getUserPanel());
-	var featuredPanel = $("<div></div>").attr("id", "featuredPanel");
-	var featuredTabs = $("<ul></ul>").addClass("nav").addClass("nav-tabs");
-	
-	featuredPanel.append(featuredTabs);
-	$("#side-bar").append(getFeaturedPanel());
-  }
+	$("#side-bar").empty().append(this.getUserPanel());
+	var featuredView = new FeaturedView().render();
+	$("#side-bar").append(featuredView.$el);
+	if (localStorage.getItem("token")) {
+		$("#feat-userboards-tab").show();
+		$("#feat-userboards").show();
+		this.getFeaturedBoards("#feat-userboards", "/api/accounts/"+localStorage.getItem("username")+"/boards");
+	}
+	else {
+		$("#feat-top").show();
+	}
+	this.getFeaturedBoards("#feat-top", "/api/special/subboards/top");
+	this.getFeaturedBoards("#feat-bottom", "/api/special/subboards/bottom");
+  },
 
   getUserPanel() {
 	var content;
@@ -239,17 +246,33 @@ export default Backbone.Router.extend({
 		content = new LoginForm().render();
 	}
 	return content.$el;
-  }
+  },
 
-  getFeaturedPanel() {
-	this.featuredCollectionView = new FeaturedCollectionView();
+  getFeaturedBoards(divID, apiURL) {
 	$.get({
-		url: "/api/special/boards/top",
+		url: apiURL,
 		success: (data) => {
 			if (!data.success) {
 				return;
 			}
-			this.featuredCollectionView.collection.add(data.data);
+			var item;
+			data.data.forEach((obj) => {
+				item = $("<a></a>").attr("href", "/#/boards/"+obj.name);
+				item.append(obj.name + "@" + obj.postCount);
+				$(divID + " ul").append($("<li></li>").attr("style", "cursor:pointer").append(item));
+			});
+		},
+		error: (e) => {
+			var item;
+			item = $("<a></a>").attr("href", "/#/boards/"+divID+"1");
+			item.append(divID+"1" + "@" + 5);
+			$(divID + " ul").append($("<li></li>").attr("style", "cursor:pointer").append(item));
+			item = $("<a></a>").attr("href", "/#/boards/"+divID+"2");
+			item.append(divID+"2" + "@" + 4);
+			$(divID + " ul").append($("<li></li>").attr("style", "cursor:pointer").append(item));
+			item = $("<a></a>").attr("href", "/#/boards/"+divID+"3");
+			item.append(divID+"3" + "@" + 3);
+			$(divID + " ul").append($("<li></li>").attr("style", "cursor:pointer").append(item));
 		}
 	});
 	return "";

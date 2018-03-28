@@ -7,6 +7,14 @@ import template from './FeaturedTemplate.hbs'
 
 export default Marionette.View.extend({
 	template,
-	model: new FeaturedModel(), // is this necessary?
-	tagName: "tr"
+	events: {
+		"click #featured-tabs a": "tabClicked"
+	},
+	
+	tabClicked(evt) {
+		var splitID = $(evt.currentTarget).attr("id").split("-");
+		var id = splitID[0] + "-" + splitID[1];
+		$("#featured div").hide();
+		$("#featured div#"+id).show();
+	}
 })
