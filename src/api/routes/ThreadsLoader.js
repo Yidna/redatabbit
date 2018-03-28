@@ -38,9 +38,12 @@ module.exports =
             router.post('/subboards/:name', (req, res) => {
 				var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
 				q += 'INSERT INTO Thread(id, subboard, title) VALUES (LAST_INSERT_ID(), ?, ?)'
+				/*var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
+				q += '@id = LAST_INSERT_ID();'
+				q += 'INSERT INTO Thread(id, subboard, title) VALUES (@id, ?, ?)'*/
 				this.db.query(
 				q,
-				[req.body.username, req.body.text, req.body.subboard_name, req.body.title],
+				[req.body.username, req.body.text, req.params.name, req.body.title],
 				(err, rows) => {
 					if (err) {
 						throw err
