@@ -33,7 +33,7 @@ module.exports =
       })
 
       router.post('/subboards', (req, res) => {
-        const q = 'INSERT INTO Subboard(name, date_created) VALUE (?, ?)'
+        const q = 'INSERT INTO Subboard(name, date_created) VALUES (?, ?)'
         this.db.query(q, [req.body.name, req.body.date_created], (err, rows) =>{
 			    if (err) {
 			  	throw err
