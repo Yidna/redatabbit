@@ -112,6 +112,46 @@ body {
 
   }
 
+  .search-users {
+    margin-left: 1em;
+    margin-bottom: 1em;
+
+    .search-users-button {
+      display: inline-block;
+      background-color: lightgrey;
+      color: black;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .search-users-button:hover {
+      background-color: darkgray;
+    }
+
+    .search-users-form {
+      display: none;
+    }
+
+  }
+
+  .wacky-users {
+    margin-left: 1em;
+    display: inline-block;
+
+    .wacky-users-button {
+      background-color: lightgrey;
+      color: black;
+      padding: 0.5em;
+      font-weight: bold;
+      margin-bottom: 1em;
+    }
+
+    .wacky-users-button:hover {
+      background-color: darkgray;
+    }
+  }
+
   .users {
     margin-left: 1em;
 

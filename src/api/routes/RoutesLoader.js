@@ -1,15 +1,15 @@
-//Base Route Loading Class
+// Base Route Loading Class
 
-module.exports = 
+module.exports =
 class RoutesLoader {
 	constructor(db) {
 		this.db = db;
 	}
-	
+
 	loadRoutes(router) {
-		
+
 	}
-	
+
 	sendError(res, message) {
 		return res.send({
 			"success": false,
@@ -17,7 +17,7 @@ class RoutesLoader {
 			"data": []
 		});
 	}
-	
+
 	sendErrorData(res, message, data) {
 		return res.send({
 			"success": false,
@@ -25,7 +25,7 @@ class RoutesLoader {
 			"data": data
 		});
 	}
-	
+
 	sendSuccess(res) {
 		return res.send({
 			"success": true,
@@ -33,7 +33,7 @@ class RoutesLoader {
 			"data": []
 		});
 	}
-	
+
 	sendSuccessData(res, data) {
 		return res.send({
 			"success": true,

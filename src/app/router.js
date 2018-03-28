@@ -18,6 +18,8 @@ import ModeratorCollectionView from "./components/moderator-list/ModeratorCollec
 import MessageCollectionView from './components/inbox/MessageCollectionView';
 import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
+import SearchUsersView from "./components/search-users/SearchUsersView";
+import WackyUsersView from "./components/wacky-users/WackyUsersView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -42,6 +44,8 @@ export default Backbone.Router.extend({
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
+    this.searchUsersView = new SearchUsersView()
+    this.wackyUsersView = new WackyUsersView()
     this.usersCollectionView = new UserCollectionView()
 
 		this.loadBanner();
@@ -62,7 +66,7 @@ export default Backbone.Router.extend({
 
     this.subboardCollectionView.collection.reset()
     // TODO: boards query
-    $.get('/api/accounts', (data) => {
+    $.get('/api/subboards', (data) => {
       this.subboardCollectionView.collection.add(data.data)
     })
     this.subboardCollectionView.render()
@@ -166,6 +170,14 @@ export default Backbone.Router.extend({
   visitUsers() {
 	$("#users-tab").addClass("active");
 
+    // search users button
+    this.searchUsersView.render()
+    $('#content').empty().append(this.searchUsersView.$el)
+
+    // wacky users button
+    this.wackyUsersView.render()
+    $('.search-users-button').after(this.wackyUsersView.$el)
+
     // add users
     this.usersCollectionView.collection.reset()
     // TODO: users query, ranked by post count
@@ -173,7 +185,8 @@ export default Backbone.Router.extend({
       this.usersCollectionView.collection.add(data.data)
     })
     this.usersCollectionView.render()
-    $('#content').empty().append(this.usersCollectionView.$el)
+    $('#content').append(this.usersCollectionView.$el)
+    $('#row0').remove()
     $('.users').append('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
   },
 
