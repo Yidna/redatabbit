@@ -37,6 +37,10 @@ body {
 
   .subboard {
     background-color: lightgrey;
+
+    .delete-subboard:hover {
+      color: red;
+    }
   }
 
   .thread {
