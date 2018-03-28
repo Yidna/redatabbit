@@ -32,39 +32,39 @@ module.exports =
 				}
 				
 				// get thread
-				const q = 'SELECT * FROM Post WHERE id=?'
+				var q = 'SELECT * FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 						return this.sendError(res, err)
 					}
-				})
-				
-				if (rows.length != 1) {
-					return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
-				}
-				
-				// if user is not OP, check if mod
-				if (rows[0].username !== auth) {
-					// get moderates
-					q = 'SELECT * FROM Moderates WHERE username=?'
-					this.db.query(q, [auth], (err, rows) => {
-						if (err) {
-							return this.sendError(res, err)
-						}
-					})
 					
-					// check if user is mod for this board
-					var isMod = false;
-					for (var i = 0; i < rows.length; i++) {
-						if (rows[i].subboard === req.params.subboard_name) {
-							isMod = true;
-							break;
-						}
+					if (rows.length != 1) {
+						return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
 					}
-					if (isMod == false) {
-						return this.sendError(res, "Not a mod for this board")
+					
+					// if user is not OP, check if mod
+					if (rows[0].username !== auth) {
+						// get moderates
+						q = 'SELECT * FROM Moderates WHERE username=?'
+						this.db.query(q, [auth], (err2, rows2) => {
+							if (err2) {
+								return this.sendError(res, err2)
+							}
+						
+							// check if user is mod for this board
+							var isMod = false;
+							for (var i = 0; i < rows2.length; i++) {
+								if (rows2[i].subboard === req.params.subboard_name) {
+									isMod = true;
+									break;
+								}
+							}
+							if (isMod == false) {
+								return this.sendError(res, "Not a mod for this board")
+							}
+						})
 					}
-				}
+				})
 				
 				// finally update
 				q = 'UPDATE Post SET content=? WHERE id=?'
@@ -116,34 +116,34 @@ module.exports =
 					if (err) {
 						return this.sendError(res, err)
 					}
-				})
-				
-				if (rows.length != 1) {
-					return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
-				}
-				
-				// if user is not OP, check if mod
-				if (rows[0].username !== auth) {
-					// get moderates
-					q = 'SELECT * FROM Moderates WHERE username=?'
-					this.db.query(q, [auth], (err, rows) => {
-						if (err) {
-							return this.sendError(res, err)
-						}
-					})
 					
-					// check if user is mod for this board
-					var isMod = false;
-					for (var i = 0; i < rows.length; i++) {
-						if (rows[i].subboard === req.params.subboard_name) {
-							isMod = true;
-							break;
-						}
+					if (rows.length != 1) {
+						return this.sendError(res, "Didn't get exactly 1 Thread with that ID")
 					}
-					if (isMod == false) {
-						return this.sendError(res, "Not a mod for this board")
+					
+					// if user is not OP, check if mod
+					if (rows[0].username !== auth) {
+						// get moderates
+						q = 'SELECT * FROM Moderates WHERE username=?'
+						this.db.query(q, [auth], (err2, rows2) => {
+							if (err2) {
+								return this.sendError(res, err2)
+							}
+						
+							// check if user is mod for this board
+							var isMod = false;
+							for (var i = 0; i < rows2.length; i++) {
+								if (rows2[i].subboard === req.params.subboard_name) {
+									isMod = true;
+									break;
+								}
+							}
+							if (isMod == false) {
+								return this.sendError(res, "Not a mod for this board")
+							}
+						})
 					}
-				}
+				})
 				
 				// finally delete
 				q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
