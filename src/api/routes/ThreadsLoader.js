@@ -13,7 +13,7 @@ module.exports =
             })
 
             router.get('/subboards/:subboard_name/threads/:thread_id', (req, res) => {
-				const q = 'SELECT title, username, date_created, content FROM Thread t, Post p, WHERE p.id=? AND t.id = p.id'
+				const q = 'SELECT * FROM Thread t, Post p WHERE p.id=? AND t.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
 					  throw err
