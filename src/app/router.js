@@ -40,12 +40,9 @@ export default Backbone.Router.extend({
   },
 
 	initialize() {
-		this.subboardCollectionView = new SubboardCollectionView()
-		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
 		this.messageCollectionView = new MessageCollectionView();
-		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
     this.searchPostsView = new SearchPostsView()
     this.usersCollectionView = new UserCollectionView()
@@ -66,6 +63,7 @@ export default Backbone.Router.extend({
     this.createBoardView.render()
     $('#content').empty().append(this.createBoardView.$el)
 
+    this.subboardCollectionView = new SubboardCollectionView()
     this.subboardCollectionView.collection.reset()
     // TODO: boards query
     $.get('/api/subboards', (data) => {
@@ -82,6 +80,7 @@ export default Backbone.Router.extend({
   visitBoard() {
     // add mods list
     $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
+    this.modsView = new ModeratorCollectionView()
     this.modsView.collection.reset()
     $.get(`/api/sub${Backbone.history.getFragment()}/moderators`, (data) => {
       if (!data.success) {
@@ -103,6 +102,7 @@ export default Backbone.Router.extend({
     $('#content').append(this.postButtonView.$el)
 
     // add threads
+    this.threadCollectionView = new ThreadCollectionView()
     this.threadCollectionView.collection.reset()
     $.get(`/api/sub${Backbone.history.getFragment()}/threads`, (data) => {
       if (!data.success) {
@@ -122,6 +122,19 @@ export default Backbone.Router.extend({
   },
 
   visitThread() {
+    // // add mods list
+    // $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
+    // this.modsView = new ModeratorCollectionView()
+    // $.get(`/api/sub${Backbone.history.getFragment()}/moderators`, (data) => {
+    //   if (!data.success) {
+    //     alert(data.message)
+    //   } else {
+    //     this.modsView.collection.add(data.data)
+    //   }
+    // })
+    // this.modsView.render()
+    // $('#moderators-tag').append(this.modsView.$el)
+
     // add post comment button
     const postRoute = window.location.hash
     this.postButtonView.model.set({
