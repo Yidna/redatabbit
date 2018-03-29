@@ -27,5 +27,5 @@ view profile
 	- view messages												# Completed/D
 		- create message										# Completed/D
 		- edit message											# Completed/D
-		- delete all messages by either inputted USER NAME or inputted DATE
+		- delete all messages by either inputted USER NAME
 register
