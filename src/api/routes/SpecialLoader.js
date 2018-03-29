@@ -9,12 +9,6 @@ module.exports =
                              WHERE p.id=t.id OR (p.id=r.id AND r.thread=t.id)) AS t
                       WHERE subboard IN (SELECT name AS subboard FROM Subboard)
                       GROUP BY username Having COUNT(*)=(SELECT COUNT(*) FROM Subboard)`
-            if (!req.headers.token){
-              return this.sendError(res, "Not logged in")
-            }
-            if(this.authenticate(req.headers.token=="")){
-                return this.sendError(res, "Invalid log in")
-            }
             this.db.query(q, (err, rows) => {
               if (err) {
                 return this.sendError(res, "ERROR! TRY AGAIN!")
