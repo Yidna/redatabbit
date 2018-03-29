@@ -45,7 +45,8 @@ body {
     .thread-button {
       color: white;
       display: inline;
-      margin-right: 2em;
+      margin-left:0.5em;
+      margin-right: 1em;
     }
 
     .thread-content {
@@ -63,7 +64,16 @@ body {
     .comment-button {
       color: white;
       display: inline;
-      margin-right: 2em;
+      margin-left:0.5em;
+      margin-right: 1em;
+    }
+
+    .comment-content {
+      background-color: white;
+      color: black;
+      border-style: solid;
+      border-color: blue;
+      padding: 0.5em;
     }
   }
 

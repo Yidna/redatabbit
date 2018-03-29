@@ -29,10 +29,10 @@ export default Backbone.Router.extend({
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
     'boards/:subboard/create': 'createThread', // order matters here
-    'boards/:subboard/:thread_id': 'visitThread',
+    'boards/:subboard/threads/:thread_id': 'visitThread',
     'boards/:subboard/threads/:thread_id/edit': 'editThread',
-    'boards/:subboard/:thread_id/create': 'createComment',
-    'boards/:subboard/:thread_id/:comment_id/edit': 'editComment',
+    'boards/:subboard/threads/:thread_id/create': 'createComment',
+    'boards/:subboard/threads/:thread_id/replies/:comment_id': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
 	'messages/:username/compose(/:to_account)': 'visitCompose',
@@ -122,19 +122,6 @@ export default Backbone.Router.extend({
   },
 
   visitThread() {
-    // // add mods list
-    // $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
-    // this.modsView = new ModeratorCollectionView()
-    // $.get(`/api/sub${Backbone.history.getFragment()}/moderators`, (data) => {
-    //   if (!data.success) {
-    //     alert(data.message)
-    //   } else {
-    //     this.modsView.collection.add(data.data)
-    //   }
-    // })
-    // this.modsView.render()
-    // $('#moderators-tag').append(this.modsView.$el)
-
     // add post comment button
     const postRoute = window.location.hash
     this.postButtonView.model.set({
@@ -146,8 +133,7 @@ export default Backbone.Router.extend({
 
     // add comments
     this.commentCollectionView.collection.reset()
-    // TODO: comments query
-    $.get('/api/accounts', (data) => {
+    $.get(`api/sub${Backbone.history.fragment}/replies`, (data) => {
       if (!data.success) {
         alert(data.message)
       } else {
