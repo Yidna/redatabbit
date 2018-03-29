@@ -29,10 +29,10 @@ export default Backbone.Router.extend({
     boards: 'visitBoards',
     'boards/:subboard': 'visitBoard',
     'boards/:subboard/create': 'createThread', // order matters here
-    'boards/:subboard/:thread': 'visitThread',
-    'boards/:subboard/:thread/edit': 'editThread',
-    'boards/:subboard/:thread/create': 'createComment',
-    'boards/:subboard/:thread/:comment/edit': 'editComment',
+    'boards/:subboard/:thread_id': 'visitThread',
+    'boards/:subboard/threads/:thread_id/edit': 'editThread',
+    'boards/:subboard/:thread_id/create': 'createComment',
+    'boards/:subboard/:thread_id/:comment_id/edit': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
 	'messages/:username/compose(/:to_account)': 'visitCompose',
@@ -44,7 +44,6 @@ export default Backbone.Router.extend({
 		this.threadCollectionView = new ThreadCollectionView()
 		this.commentCollectionView = new CommentCollectionView()
 		this.postButtonView = new PostButtonView()
-		this.postBoxView = new PostBoxView()
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
@@ -153,26 +152,33 @@ export default Backbone.Router.extend({
   },
 
   createThread() {
+    this.postBoxView = new PostBoxView()
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
   },
 
   createComment() {
+    this.postBoxView = new PostBoxView()
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
   },
 
   editThread() {
-    // TODO: retrieve threadContent
-    const stubContent = 'thread user should be about to edit'
+    this.postBoxView = new PostBoxView()
+    // // TODO: retrieve threadContent
+    // const stubContent = 'thread user should be about to edit'
+    // this.postBoxView.render()
+    // this.postBoxView.$('#post-box-text').text(stubContent)
+    // $('#content').empty().append(this.postBoxView.$el)
+    // // TODO: post request
     this.postBoxView.render()
-    this.postBoxView.$('#post-box-text').text(stubContent)
     $('#content').empty().append(this.postBoxView.$el)
-    // TODO: post request
+    $('#post-box-title').hide()
   },
 
   editComment() {
+    this.postBoxView = new PostBoxView()
     // TODO: retrieve threadContent
     const stubContent = 'comment user should be about to edit'
     this.postBoxView.render()
