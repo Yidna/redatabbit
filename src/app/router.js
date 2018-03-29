@@ -84,8 +84,7 @@ export default Backbone.Router.extend({
     // add mods list
     $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
     this.modsView.collection.reset()
-    // TODO: moderators query
-    $.get('/api/accounts', (data) => {
+    $.get(`/api/sub${Backbone.history.getFragment()}/moderators`, (data) => {
       if (!data.success) {
         alert(data.message.sqlMessage)
       } else {

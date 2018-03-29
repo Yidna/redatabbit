@@ -15,8 +15,7 @@ module.exports =
 
       // get the name, moderators, and thread of a subboard
       router.get('/subboards/:name/moderators', (req, res) => {
-        let q = 'SELECT name FROM Subboard WHERE name=?;'
-        q += 'SELECT username From Moderates where Subboard=?;'
+        let q = 'SELECT username From Moderates where Subboard=?;'
         this.db.query(q, [req.params.name, req.params.name], (err, rows) => {
           if (err) {
             return this.sendError(res, err)
