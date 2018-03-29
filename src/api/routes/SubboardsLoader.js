@@ -2,8 +2,9 @@
 module.exports =
   class SubboardsLoader extends require('./AuthableLoader') {
     loadRoutes(router) {
+      // get all subboards names
       router.get('/subboards', (req, res) => {
-        const q = 'SELECT * FROM Subboard'
+        const q = 'SELECT name FROM Subboard'
         this.db.query(q, (err, rows) => {
           if (err) {
             return this.sendError(res, err)
@@ -12,9 +13,11 @@ module.exports =
         })
       })
 
-      router.get('/subboards/:name', (req, res) => {
-        const q = 'SELECT * FROM Subboard WHERE name=?'
-        this.db.query(q, [req.params.name], (err, rows) => {
+      // get the name, moderators, and thread of a subboard
+      router.get('/subboards/:name/moderators', (req, res) => {
+        let q = 'SELECT name FROM Subboard WHERE name=?;'
+        q += 'SELECT username From Moderates where Subboard=?;'
+        this.db.query(q, [req.params.name, req.params.name], (err, rows) => {
           if (err) {
             return this.sendError(res, err)
           }
@@ -50,10 +53,10 @@ module.exports =
         })
       })
 
-      router.delete('/subboards/:name', (req, res) => {
-        const q = 'DELETE FROM Subboard WHERE name=?'
-        // TODO
-        this.db.query(q, [req.params.name], (err, rows) => {
+      router.delete('/subboards/:name/:username', (req, res) => {
+        const q = 'DELETE FROM Subboard WHERE name=?;'
+        q += 'DELETE FROM Moderates WHERE username=?'
+        this.db.query(q, [req.params.name, req.params.username], (err, rows) => {
           if (err){
             return this.sendError(res, err)
           }

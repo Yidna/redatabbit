@@ -7,7 +7,7 @@ module.exports =
                 const q = 'SELECT * FROM Personal_Message'
                 this.db.query(q, (err, rows) => {
                     if(err){
-                        return this.sendError(res, err)
+                        return this.sendError(res, "")
                     }
                     return this.sendSuccessData(res, rows)
                 })

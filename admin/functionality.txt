@@ -1,5 +1,34 @@
 view list of subboards
 	- search
+		- average posts per user per subboard sorted asc/desc	# TODO/
+		- OR: average posters per user per subboard -> AND THEN EITHER THE MAX/MIN
+		  - user has option to select max or min
+	- click on a subboard
+		- view list of moderators for that subboard				# Completed/D
+		- gets list of threads in that subboard					# Completed/J
+			- get list of comments in that thread				# Completed/J
+				- create new comment							# Completed/J
+				- edit comment (pseudo-delete)					# Completed/J
+			- create new thread									# Completed/J
+			- edit thread										# Completed/J
+view list of users
+	- search                                        			# Completed/I
+	- show counts of posts and rank by post count               # Completed/D
+	- view all users who have posted in every board 			# Completed/A
+create a new subboard											# Completed/D
+	- promote person to moderator                   			# Completed/D
+delete subboard													# Completed/D     NO MORE???
+	- remove person from moderates								# Completed/D
+view profile
+	- change username (NO SPACES)
+	- change password
+	- view all boards you have participated in
+	- view messages												# Completed/D
+		- create message										# Completed/D
+		- edit message											# Completed/D
+register
+view list of subboards
+	- search
 		- average posts per user per subboard sorted asc/desc
 		- OR: average posters per user per subboard -> AND THEN EITHER THE MAX/MIN
 		  - user has option to select max or min
