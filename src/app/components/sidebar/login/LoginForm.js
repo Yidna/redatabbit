@@ -29,6 +29,24 @@ export default Marionette.View.extend({
 		});
 	},
 	register(evt) {
+		$(".alert").attr("style", "visibility:hidden");
 		evt.preventDefault();
+		$.post({
+			url: "/api/accounts",
+			data: {
+				"username": $("#username").val(),
+				"password": $("#password").val(),
+				"is_moderator": 0
+			},
+			success: (data) => {
+				if (!data.success) {
+					alert(data.message);
+					$(".alert").empty().append(data.message);
+					$(".alert").attr("style", "visibility:visible");
+					return;
+				}
+				location.reload();
+			}
+		});
 	}
 })
