@@ -15,7 +15,19 @@ module.exports =
               }
               return this.sendSuccessData(res, rows)
             })
-        })
+        });
+		
+		router.get('/special/accounts/boards/:username', (req, res) => {
+			
+		});
+		
+		router.get('/special/boards/top', (req, res) => {
+			
+		});
+		
+		router.get('/special/boards/bottom', (req, res) => {
+			
+		});
     }
   }
 
