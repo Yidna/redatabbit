@@ -105,11 +105,11 @@ export default Backbone.Router.extend({
 
     // add threads
     this.threadCollectionView.collection.reset()
-    // TODO: threads query
-    $.get('/api/accounts', (data) => {
+    $.get(`/api/sub${Backbone.history.getFragment()}/threads`, (data) => {
       if (!data.success) {
         alert(data.message.sqlMessage)
       } else {
+        console.log(data)
         const models = []
         data.data.forEach((model) => {
           const newModel = model
