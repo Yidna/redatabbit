@@ -232,9 +232,11 @@ export default Backbone.Router.extend({
 			}
 			this.messageCollectionView.collection.add(data.data);
 			this.messageCollectionView.render();
+			var newMessageButton = $("<a></a>").addClass("btn").addClass("btn-primary").attr("href", "/#/messages/"+localStorage.getItem("username")+"/compose");
+			newMessageButton.append("Send New Message");
 			var messageTable = $("<table></table>").addClass("table");
 			messageTable.append(this.messageCollectionView.$el);
-			$("#content").empty().append(messageTable);
+			$("#content").empty().append(newMessageButton).append(messageTable);
 		}
 	});
   },
