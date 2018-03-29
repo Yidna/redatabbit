@@ -54,7 +54,8 @@ export default Marionette.View.extend({
 					token: localStorage.getItem("token")
 				},
 				success: (data) => {
-					if (!success) {
+					if (!data.success) {
+						location.href("/");
 						return;
 					}
 					location.reload();

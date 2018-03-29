@@ -220,8 +220,10 @@ export default Backbone.Router.extend({
 		},
 		success: (data) => {
 			if (!data.success) {
+				location.href("/");
 				return;
 			}
+			this.messageCollectionView.collection.add(data.data);
 			this.messageCollectionView.render();
 			var messageTable = $("<table></table>").addClass("table");
 			messageTable.append(this.messageCollectionView.$el);

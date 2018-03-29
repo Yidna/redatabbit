@@ -11,6 +11,7 @@ export default Marionette.View.extend({
 		"click #register-button": "register"
 	},
 	login(evt) {
+		$(".alert").removeClass("alert-success").addClass("alert-danger");
 		$(".alert").attr("style", "visibility:hidden");
 		evt.preventDefault();
 		$.post("/api/authenticate/login", {
@@ -29,6 +30,7 @@ export default Marionette.View.extend({
 		});
 	},
 	register(evt) {
+		$(".alert").removeClass("alert-success").addClass("alert-danger");
 		$(".alert").attr("style", "visibility:hidden");
 		evt.preventDefault();
 		$.post({
@@ -40,12 +42,13 @@ export default Marionette.View.extend({
 			},
 			success: (data) => {
 				if (!data.success) {
-					alert(data.message);
 					$(".alert").empty().append(data.message);
 					$(".alert").attr("style", "visibility:visible");
 					return;
 				}
-				location.reload();
+				$(".alert").removeClass("alert-danger").addClass("alert-success");
+				$(".alert").empty().append("Account successfully created!");
+				$(".alert").attr("style", "visibility:visible");
 			}
 		});
 	}
