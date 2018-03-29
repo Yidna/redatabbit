@@ -1,14 +1,13 @@
-import $ from 'jquery'
 import Marionette from 'backbone.marionette'
 
-import ThreadModel from './ThreadModel'
-import template from './ThreadTemplate.hbs'
+import CommentModel from './CommentModel'
+import template from './CommentTemplate.hbs'
 
 export default Marionette.View.extend({
   template,
   tagName: 'tr',
-  className: 'thread',
-  model: new ThreadModel(), // is this necessary?
+  className: 'comment',
+  model: new CommentModel(), // is this necessary?
 
   onRender() {
     const user = localStorage.getItem('username')
