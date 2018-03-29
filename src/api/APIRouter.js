@@ -5,6 +5,7 @@ const AccountsLoader = require("./routes/AccountsLoader");
 const SubboardsLoader = require("./routes/SubboardsLoader");
 const ThreadsLoader = require("./routes/ThreadsLoader");
 const MessageLoader = require("./routes/MessageLoader");
+const SpecialLoader = require("./routes/SpecialLoader");
 
 module.exports =
 class APIRouter {
@@ -15,6 +16,7 @@ class APIRouter {
 		this.subboardsLoader = new SubboardsLoader(db, this.authLoader);
 		this.threadsLoader = new ThreadsLoader(db, this.authLoader);
 		this.messageLoader = new MessageLoader(db, this.authLoader);
+		this.specialLoader = new SpecialLoader(db, this.authLoader);
 	}
 
 	loadRoutes() {
@@ -23,6 +25,7 @@ class APIRouter {
 		this.subboardsLoader.loadRoutes(this.router);
 		this.threadsLoader.loadRoutes(this.router);
 		this.messageLoader.loadRoutes(this.router);
+		this.specialLoader.loadRoutes(this.router);
 	}
 
 	get() {
