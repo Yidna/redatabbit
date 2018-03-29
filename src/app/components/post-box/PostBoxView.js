@@ -14,7 +14,8 @@ export default Marionette.View.extend({
   },
 
   submitForm() {
-    const title = $('#post-box-text').val()
+    const title = $('#post-box-title').val()
+    const text = $('#post-box-text').val()
     const token = localStorage.getItem('token');
     $.ajax({
       method: 'POST',
@@ -23,7 +24,7 @@ export default Marionette.View.extend({
         token: token
       },
       data: {
-        text: title,
+        text: text,
         title: title
       },
       success: (data) => {
