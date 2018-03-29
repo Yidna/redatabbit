@@ -2,7 +2,7 @@
 module.exports =
     class RepliesLoader extends require('./AuthableLoader') {
         loadRoutes(router) {
-            router.get('/subboards/:name/threads/:thread_id/replies', (req, res) => {
+            router.get('/subboards/:subboard_name/threads/:thread_id/replies', (req, res) => {
 				const q = 'SELECT p.id, username, date_created, content FROM Reply r, Post p WHERE thread=? AND r.id = p.id'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
@@ -12,7 +12,7 @@ module.exports =
 				})
             })
 
-            router.put('/subboards/:name/threads/:thread_id/replies/:comment_id', (req, res) => {
+            router.put('/subboards/:subboard_name/threads/:thread_id/replies/:comment_id', (req, res) => {
 				if (!req.headers.token) {
 					return this.sendError(res, "No token");
 				}
@@ -21,47 +21,14 @@ module.exports =
 					return this.sendError(res, "No user in token");
 				}
 				
-				/*// get reply
-				var q = 'SELECT * FROM Post WHERE id=?'
-				this.db.query(q, [req.params.comment_id], (err, rows) => {
-					if (err) {
-						return this.sendError(res, err)
-					}
-					
-					if (rows.length != 1) {
-						return this.sendError(res, "Didn't get exactly 1 Reply with that ID")
-					}
-					
-					// if user is not OP, check if mod
-					if (rows[0].username !== auth) {
-						// get moderates
-						q = 'SELECT * FROM Moderates WHERE username=?'
-						this.db.query(q, [auth], (err2, rows2) => {
-							if (err2) {
-								return this.sendError(res, err2)
-							}
-						
-							// check if user is mod for this board
-							var isMod = false;
-							for (var i = 0; i < rows2.length; i++) {
-								if (rows2[i].subboard === req.params.subboard_name) {
-									isMod = true;
-									break;
-								}
-							}
-							if (isMod == false) {
-								return this.sendError(res, "Not a mod for this board")
-							}
-						})
-					}
-				})*/
-				
-                var q = 'UPDATE Post SET content=? WHERE id=?'
-				this.db.query(q, [req.body.text, req.params.comment_id], (err, rows) => {
-					if (err) {
-					  return this.sendError(res, err)
-					}
-					return this.sendSuccess(res)
+				var q = 'SET @sb := (SELECT DISTINCT subboard FROM Moderates WHERE username=? AND subboard=?);'
+				q += 'SET @id := (SELECT DISTINCT p.id FROM Post p, Thread t, Reply r WHERE p.id=? AND (p.username=? OR (p.id=r.id AND r.thread=t.id AND t.subboard=@sb)));'
+				q += 'UPDATE Post SET content=? WHERE id=@id'
+				this.db.query(q, [auth, req.params.subboard_name, req.params.comment_id, auth, req.body.text], (err, rows) => {
+				if (err) {
+					return this.sendError(res, err)
+				}
+				return this.sendSuccess(res)
 				})
             })
 
@@ -78,7 +45,7 @@ module.exports =
 				q += 'INSERT INTO Reply(id, thread) VALUES (LAST_INSERT_ID(), ?)'
 				this.db.query(
 				q,
-				[req.body.username, req.body.text, req.params.thread_id],
+				[auth, req.body.text, req.params.thread_id],
 				(err, rows) => {
 					if (err) {
 						return this.sendError(res, err)
