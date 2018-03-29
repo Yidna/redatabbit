@@ -2,8 +2,10 @@
 module.exports =
   class AccountsLoader extends require('./AuthableLoader') {
     loadRoutes(router) {
+      // get usernames and the numbers of posts for each user
       router.get('/accounts', (req, res) => {
-        const q = 'SELECT username, date_created FROM Account'
+        let q = 'SELECT Account.username, COUNT(Post.username)'
+        q += 'FROM Account, Post WHERE Account.username=Post.username GROUP BY Post.username;'
         this.db.query(q, (err, rows) => {
           if (err) {
             return this.sendError(res, err)
@@ -36,7 +38,7 @@ module.exports =
         const q = 'INSERT INTO Account(username, password, is_moderator) VALUES (?, ?, ?)'
         this.db.query(
           q,
-          [req.body.username, req.body.password, req.body.is_moderator],
+          [req.body.username, req.body.password, req.body.is_modetator],
           (err) => {
             if (err) {
               return this.sendError(res, err)
