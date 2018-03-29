@@ -22,7 +22,7 @@ export default Marionette.View.extend({
     const wackyUsers = {};
     $.get('api/special/accounts/wacky', (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         data.data.forEach((datum) => {
           wackyUsers[datum.username] = true;

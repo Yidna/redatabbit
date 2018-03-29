@@ -73,7 +73,7 @@ export default Backbone.Router.extend({
     // TODO: boards query
     $.get('/api/subboards', (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         this.subboardCollectionView.collection.add(data.data)
       }
@@ -88,7 +88,7 @@ export default Backbone.Router.extend({
     this.modsView.collection.reset()
     $.get(`/api/sub${Backbone.history.getFragment()}/moderators`, (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         this.modsView.collection.add(data.data)
       }
@@ -109,11 +109,10 @@ export default Backbone.Router.extend({
     this.threadCollectionView.collection.reset()
     $.get(`/api/sub${Backbone.history.getFragment()}/threads`, (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         const models = []
         data.data.forEach((model) => {
-          console.log(model)
           const newModel = model
           newModel.route = postRoute
           models.push(newModel)
@@ -140,7 +139,7 @@ export default Backbone.Router.extend({
     // TODO: comments query
     $.get('/api/accounts', (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         const models = []
         data.data.forEach((model) => {
@@ -200,7 +199,7 @@ export default Backbone.Router.extend({
     // TODO: users query, ranked by post count
     $.get('/api/accounts', (data) => {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         this.usersCollectionView.collection.add(data.data)
       }
@@ -232,7 +231,7 @@ export default Backbone.Router.extend({
 		}
 	});
   },
-  
+
   visitCompose(username, to_account) {
 	  var composeView = new ComposeView().render();
 	  $("#content").empty().append(composeView.$el);

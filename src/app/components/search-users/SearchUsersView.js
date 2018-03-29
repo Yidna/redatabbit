@@ -32,7 +32,7 @@ export default Marionette.View.extend({
     this.usersCollectionView.collection.reset()
     $.get(`/api/accounts/${input}`, (data)=> {
       if (!data.success) {
-        alert(data.message.sqlMessage)
+        alert(data.message)
       } else {
         this.usersCollectionView.collection.add(data.data)
       }
