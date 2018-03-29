@@ -41,12 +41,12 @@ module.exports =
 
       router.put('/accounts/:username', (req, res) => {
         const q = 'UPDATE Account SET username=?, password=? WHERE username=? AND password=?'
-		if (!req.headers.token) {
-			return this.sendError(res, "Not logged in");
-		}
-		if (this.authenticate(req.headers.token) == "") {
-			return this.sendError(res, "Invalid login");
-		}
+        if (!req.headers.token) {
+          return this.sendError(res, "Not logged in");
+        }
+        if (this.authenticate(req.headers.token) == "") {
+          return this.sendError(res, "Invalid login");
+        }
         this.db.query(q, [req.body.username, sha512(req.body.password), req.params.username, sha512(req.body.oldPassword)], (err, rows) => {
           if (err) {
             return this.sendError(res, "ERROR! TRY AGAIN!")
