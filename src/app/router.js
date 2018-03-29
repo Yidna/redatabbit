@@ -109,7 +109,6 @@ export default Backbone.Router.extend({
       if (!data.success) {
         alert(data.message.sqlMessage)
       } else {
-        console.log(data)
         const models = []
         data.data.forEach((model) => {
           const newModel = model
@@ -156,7 +155,29 @@ export default Backbone.Router.extend({
   createThread() {
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
+    const title = $('#post-box-text').val()
+    const token = localStorage.getItem('token');
     // TODO: post request
+    $('#submit-button').click(() => {
+      $.ajax({
+        method: 'POST',
+        url: `/api/sub${Backbone.history.fragment.split('/create')[0]}`,
+        headers: {
+          token: token
+        },
+        data: {
+          text: title,
+          title: title
+        },
+        success: (data) => {
+          if (!data.success) {
+            alert(data.message.sqlMessage)
+          } else {
+            window.location = `#/${Backbone.history.fragment.split('/create')[0]}`
+          }
+        }
+      })
+    })
   },
 
   createComment() {
