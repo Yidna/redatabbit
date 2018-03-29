@@ -107,13 +107,13 @@ export default Backbone.Router.extend({
 
     // add threads
     this.threadCollectionView.collection.reset()
-    // TODO: threads query
-    $.get('/api/accounts', (data) => {
+    $.get(`/api/sub${Backbone.history.getFragment()}/threads`, (data) => {
       if (!data.success) {
         alert(data.message.sqlMessage)
       } else {
         const models = []
         data.data.forEach((model) => {
+          console.log(model)
           const newModel = model
           newModel.route = postRoute
           models.push(newModel)
@@ -158,7 +158,6 @@ export default Backbone.Router.extend({
   createThread() {
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
-    // TODO: post request
   },
 
   createComment() {
