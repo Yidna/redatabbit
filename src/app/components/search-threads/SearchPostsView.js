@@ -1,15 +1,15 @@
 import Marionette from 'backbone.marionette'
 import $ from 'jquery'
 
-import SearchThreadsModel from './SearchThreadsModel'
-import template from './SearchThreadsTemplate.hbs'
+import SearchPostsModel from './SearchPostsModel'
+import template from './SearchPostsTemplate.hbs'
 import ThreadCollectionView from "../thread/ThreadCollectionView";
 import UserCollectionView from "../user-list/UserCollectionView";
 
 export default Marionette.View.extend({
   template,
   className: 'search-threads',
-  model: new SearchThreadsModel(), // is this necessary?
+  model: new SearchPostsModel(), // is this necessary?
 
   events: {
     'click .search-threads-button': 'displayForm',

@@ -20,7 +20,7 @@ import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
 import SearchUsersView from "./components/search-users/SearchUsersView";
 import WackyUsersView from "./components/wacky-users/WackyUsersView";
-import SearchThreadsView from "./components/search-threads/SearchThreadsView";
+import SearchPostsView from "./components/search-threads/SearchPostsView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -34,7 +34,7 @@ export default Backbone.Router.extend({
     'boards/:subboard/:thread/:comment/edit': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
-    'searchThreads': 'searchThreads'
+    "searchPosts": 'searchPosts'
   },
 
 	initialize() {
@@ -47,7 +47,7 @@ export default Backbone.Router.extend({
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
     this.searchUsersView = new SearchUsersView()
-    this.searchThreadsView = new SearchThreadsView()
+    this.searchPostsView = new SearchPostsView()
     this.wackyUsersView = new WackyUsersView()
     this.usersCollectionView = new UserCollectionView()
 
@@ -231,12 +231,12 @@ export default Backbone.Router.extend({
 	});
   },
 
-  searchThreads() {
+  searchPosts() {
     $("#search-threads-tab").addClass("active");
 
     // search threads button
-    this.searchThreadsView.render()
-    $('#content').empty().append(this.searchThreadsView.$el)
+    this.searchPostsView.render()
+    $('#content').empty().append(this.searchPostsView.$el)
   },
 
   loadBanner() {
