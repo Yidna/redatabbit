@@ -18,7 +18,26 @@ module.exports =
         });
 		
 		router.get('/special/accounts/boards/:username', (req, res) => {
-			
+			const q = 
+				`SELECT c.subboard,
+					    COUNT(*) as postCount
+				 FROM (SELECT DISTINCT p.id, 
+									   t.subboard, 
+									   p.username
+					   FROM Post p, 
+							Thread t, 
+							Reply r 
+					   WHERE ((p.id = t.id) OR
+							 (p.id = r.id AND r.thread = t.id))) as c
+				 WHERE c.username=?
+				 GROUP BY c.subboard HAVING COUNT(*) > 0;`;
+				 
+			this.db.query(q, [req.params.username], (err, rows) => {
+				  if (err) {
+					return this.sendError(res, "ERROR! TRY AGAIN!")
+				  }
+				  return this.sendSuccessData(res, rows)
+			});
 		});
 		
 		router.get('/special/boards/top', (req, res) => {
