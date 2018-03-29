@@ -113,7 +113,6 @@ export default Backbone.Router.extend({
       } else {
         const models = []
         data.data.forEach((model) => {
-          console.log(model)
           const newModel = model
           newModel.route = postRoute
           models.push(newModel)
