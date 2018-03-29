@@ -11,6 +11,16 @@ module.exports =
 					return this.sendSuccessData(res, rows)
 				})
             })
+			
+			router.get('/subboards/:subboard_name/threads/:thread_id/replies/comment_id', (req, res) => {
+				const q = 'SELECT p.id, username, date_created, content FROM Reply r, Post p WHERE p.id=? AND r.id = p.id'
+				this.db.query(q, [req.params.comment_id], (err, rows) => {
+					if (err) {
+					  return this.sendError(res, err)
+					}
+					return this.sendSuccessData(res, rows)
+				})
+            })
 
             router.put('/subboards/:subboard_name/threads/:thread_id/replies/:comment_id', (req, res) => {
 				if (!req.headers.token) {
