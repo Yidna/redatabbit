@@ -2,7 +2,7 @@
 module.exports =
   class SpecialLoader extends require('./AuthableLoader') {
     loadRoutes(router) {
-        router.get('/accounts/wacky', (req, res) => {
+        router.get('/special/accounts/wacky', (req, res) => {
             const q = `SELECT username
                        FROM (SELECT DISTINCT p.username, t.subboard
                              FROM Post p, Thread t, Reply r
