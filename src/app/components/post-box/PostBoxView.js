@@ -30,17 +30,15 @@ export default Marionette.View.extend({
     }
 
     // if we are editing comment, we must get title and content
-    if (!this.model.get('comment') && this.model.get('edit')) {
-      // TODO : wait for justin
-      // $.get(`/api/sub${Backbone.history.fragment.split('/edit')[0]}`, (data) => {
-      //   if (!data.success) {
-      //     alert(data.message)
-      //     window.history.back()
-      //   } else {
-      //     $('#post-box-title').text(data.data[0]['title'])
-      //     $('#post-box-text').text(data.data[0]['content'])
-      //   }
-      // })
+    if (this.model.get('comment') && this.model.get('edit')) {
+      $.get(`/api/sub${Backbone.history.fragment}`, (data) => {
+        if (!data.success) {
+          alert(data.message)
+          window.history.back()
+        } else {
+          $('#post-box-text').text(data.data[0]['content'])
+        }
+      })
     }
   },
 
@@ -143,9 +141,6 @@ export default Marionette.View.extend({
       }
       method = 'PUT'
     }
-    console.log(url)
-    console.log(reqData)
-    console.log(method)
 
     $.ajax({
       method: method,
