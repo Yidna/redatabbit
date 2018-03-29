@@ -11,15 +11,15 @@ const SpecialLoader = require("./routes/SpecialLoader");
 module.exports =
 class APIRouter {
 	constructor(expressServer, db) {
-    this.router = new Express.Router();
-    this.authLoader = new AuthenticationLoader(db, expressServer);
-    this.accountsLoader = new AccountsLoader(db, this.authLoader);
-    this.subboardsLoader = new SubboardsLoader(db, this.authLoader);
-    this.threadsLoader = new ThreadsLoader(db, this.authLoader);
-    this.repliesLoader = new RepliesLoader(db, this.authLoader);
-    this.messageLoader = new MessageLoader(db, this.authLoader);
-    this.specialLoader = new SpecialLoader(db, this.authLoader);
-  }
+		this.router = new Express.Router();
+		this.authLoader = new AuthenticationLoader(db, expressServer);
+		this.accountsLoader = new AccountsLoader(db, this.authLoader);
+		this.subboardsLoader = new SubboardsLoader(db, this.authLoader);
+		this.threadsLoader = new ThreadsLoader(db, this.authLoader);
+		this.repliesLoader = new RepliesLoader(db, this.authLoader);
+		this.messageLoader = new MessageLoader(db, this.authLoader);
+		this.specialLoader = new SpecialLoader(db, this.authLoader);
+	}
 
 	loadRoutes() {
 		this.authLoader.loadRoutes(this.router);
