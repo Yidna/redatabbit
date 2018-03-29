@@ -41,8 +41,9 @@ export default Marionette.View.extend({
           date_created: date
         },
         success: (data) => {
+          console.log(data)
           if (!data.success) {
-            alert(data.message.sqlMessage)
+            alert(data.message)
           } else {
             this.subboardCollectionView.collection.add({
               name: input

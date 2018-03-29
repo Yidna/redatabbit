@@ -29,7 +29,7 @@ export default Marionette.View.extend({
       },
       success: (data) => {
         if (!data.success) {
-          alert(data.message.sqlMessage)
+          alert(data.message)
         } else {
           window.location = `#/${Backbone.history.fragment.split('/create')[0]}`
         }
