@@ -286,11 +286,14 @@ export default Backbone.Router.extend({
 					return;
 				}
 				localStorage.setItem("token", data.data[0].token);
-				$.get('/api/accounts/'+localStorage.getItem("username"), (data) => {
-					data.data[0].date_created = data.data[0].date_created.substring(0, 10);
-					content.model.set(data.data[0]);
-					content.render();
-				})
+				$.get({
+					url: '/api/accounts/'+localStorage.getItem("username"), 
+					success: (data) => {
+						data.data[0].date_created = data.data[0].date_created.substring(0, 10);
+						content.model.set(data.data[0]);
+						content.render();
+					}
+				});
 			}
 		});
 	}
