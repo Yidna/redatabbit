@@ -20,6 +20,7 @@ import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
 import SearchUsersView from "./components/search-users/SearchUsersView";
 import WackyUsersView from "./components/wacky-users/WackyUsersView";
+import SearchThreadsView from "./components/search-threads/SearchThreadsView";
 
 export default Backbone.Router.extend({
   routes: {
@@ -32,7 +33,8 @@ export default Backbone.Router.extend({
     'boards/:subboard/:thread/create': 'createComment',
     'boards/:subboard/:thread/:comment/edit': 'editComment',
 	'users': 'visitUsers',
-	'messages/:username': 'visitInbox'
+	'messages/:username': 'visitInbox',
+    'searchThreads': 'searchThreads'
   },
 
 	initialize() {
@@ -45,6 +47,7 @@ export default Backbone.Router.extend({
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
     this.searchUsersView = new SearchUsersView()
+    this.searchThreadsView = new SearchThreadsView()
     this.wackyUsersView = new WackyUsersView()
     this.usersCollectionView = new UserCollectionView()
 
@@ -78,8 +81,6 @@ export default Backbone.Router.extend({
   },
 
   visitBoard() {
-    // TODO: hide edit button if the post does not belong to logged in as user
-
     // add mods list
     $('#content').empty().append('<div id="moderators-tag">Moderators:</div>')
     this.modsView.collection.reset()
@@ -228,6 +229,14 @@ export default Backbone.Router.extend({
 			$("#content").empty().append(messageTable);
 		}
 	});
+  },
+
+  searchThreads() {
+    $("#search-threads-tab").addClass("active");
+
+    // search threads button
+    this.searchThreadsView.render()
+    $('#content').empty().append(this.searchThreadsView.$el)
   },
 
   loadBanner() {
