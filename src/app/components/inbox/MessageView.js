@@ -55,7 +55,7 @@ export default Marionette.View.extend({
 				},
 				success: (data) => {
 					if (!data.success) {
-						location.href("/");
+						window.location = "/";
 						return;
 					}
 					location.reload();

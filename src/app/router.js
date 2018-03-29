@@ -16,6 +16,7 @@ import PostBoxView from "./components/post-box/PostBoxView";
 import ModeratorCollectionView from "./components/moderator-list/ModeratorCollectionView";
 
 import MessageCollectionView from './components/inbox/MessageCollectionView';
+import ComposeView from './components/compose-message/ComposeView';
 import CreateBoardView from "./components/create-board/CreateBoardView";
 import UserCollectionView from "./components/user-list/UserCollectionView";
 import SearchUsersView from "./components/search-users/SearchUsersView";
@@ -34,6 +35,7 @@ export default Backbone.Router.extend({
     'boards/:subboard/:thread/:comment/edit': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
+	'messages/:username/compose(/:to_account)': 'visitCompose',
     "searchPosts": 'searchPosts'
   },
 
@@ -220,7 +222,7 @@ export default Backbone.Router.extend({
 		},
 		success: (data) => {
 			if (!data.success) {
-				location.href("/");
+				window.location = "/";
 				return;
 			}
 			this.messageCollectionView.collection.add(data.data);
@@ -230,6 +232,14 @@ export default Backbone.Router.extend({
 			$("#content").empty().append(messageTable);
 		}
 	});
+  },
+  
+  visitCompose(username, to_account) {
+	  var composeView = new ComposeView().render();
+	  $("#content").empty().append(composeView.$el);
+	  if (to_account) {
+		$("#to_account").attr("value", to_account);
+	  }
   },
 
   searchPosts() {
