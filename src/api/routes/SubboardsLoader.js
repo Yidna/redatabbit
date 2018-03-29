@@ -26,6 +26,12 @@ module.exports =
 
       router.put('/subboards/:name', (req, res) => {
         const q = 'UPDATE Subboard SET  name=?, date_created=? WHERE name=?'
+        if (!req.headers.token){
+          return this.sendError(res, "Not logged in")
+        }
+        if(this.authenticate(req.headers.token=="")){
+            return this.sendError(res, "Invalid log in")
+        }
         this.db.query(q, [req.body.name, req.body.date_created, req.params.name], (err, rows) => {
           if (err) {
             return this.sendError(res, "ERROR! TRY AGAIN!")
@@ -55,6 +61,12 @@ module.exports =
       router.delete('/subboards/:name/:username', (req, res) => {
         const q = 'DELETE FROM Subboard WHERE name=?;'
         q += 'DELETE FROM Moderates WHERE username=?'
+        if (!req.headers.token){
+          return this.sendError(res, "Not logged in")
+        }
+        if(this.authenticate(req.headers.token=="")){
+            return this.sendError(res, "Invalid log in")
+        }
         this.db.query(q, [req.params.name, req.params.username], (err, rows) => {
           if (err){
             return this.sendError(res, "ERROR! TRY AGAIN!")
