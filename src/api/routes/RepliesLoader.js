@@ -21,7 +21,7 @@ module.exports =
 					return this.sendError(res, "No user in token");
 				}
 				
-				// get reply
+				/*// get reply
 				var q = 'SELECT * FROM Post WHERE id=?'
 				this.db.query(q, [req.params.comment_id], (err, rows) => {
 					if (err) {
@@ -54,12 +54,12 @@ module.exports =
 							}
 						})
 					}
-				})
+				})*/
 				
-                q = 'UPDATE Post SET content=? WHERE id=?'
-				this.db.query(q, [req.body.text, req.params.comment_id], (err3, rows3) => {
-					if (err3) {
-					  return this.sendError(res, err3)
+                var q = 'UPDATE Post SET content=? WHERE id=?'
+				this.db.query(q, [req.body.text, req.params.comment_id], (err, rows) => {
+					if (err) {
+					  return this.sendError(res, err)
 					}
 					return this.sendSuccess(res)
 				})

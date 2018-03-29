@@ -31,7 +31,7 @@ module.exports =
 					return this.sendError(res, "No user in token");
 				}
 				
-				// get thread
+				/*// get thread
 				var q = 'SELECT * FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
@@ -64,10 +64,10 @@ module.exports =
 							}
 						})
 					}
-				})
+				})*/
 				
 				// finally update
-				q = 'UPDATE Post SET content=? WHERE id=?'
+				var q = 'UPDATE Post SET content=? WHERE id=?'
 				this.db.query(
 				q,
 				[req.body.text, req.params.thread_id],
@@ -110,7 +110,7 @@ module.exports =
 					return this.sendError(res, "No user in token");
 				}
 				
-				// get thread
+				/*// get thread
 				var q = 'SELECT * FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id], (err, rows) => {
 					if (err) {
@@ -143,10 +143,10 @@ module.exports =
 							}
 						})
 					}
-				})
+				})*/
 				
 				// finally delete
-				q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
+				var q = 'DELETE FROM Thread WHERE id=?; DELETE FROM Post WHERE id=?'
 				this.db.query(q, [req.params.thread_id, req.params.thread_id], (err, rows) => {
 				if (err) {
 					return this.sendError(res, err)
