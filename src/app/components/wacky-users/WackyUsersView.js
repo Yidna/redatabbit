@@ -19,6 +19,27 @@ export default Marionette.View.extend({
   },
 
   displayResults() {
-    console.log('hi')
+    const wackyUsers = {};
+    $.get('api/special/accounts/wacky', (data) => {
+      if (!data.success) {
+        alert(data.message.sqlMessage)
+      } else {
+        data.data.forEach((datum) => {
+          wackyUsers[datum.username] = true;
+        })
+        this.usersCollectionView.collection.forEach((userModel) => {
+          if(wackyUsers[userModel.get('username')]) {
+            userModel.set('wacky', true)
+          }
+        })
+        this.usersCollectionView.render()
+        $('.users').replaceWith(this.usersCollectionView.$el)
+        $('#row0').remove()
+        $('.users').prepend('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
+      }
+    })
+    // this.usersCollectionView.collection.forEach((model) => {
+    //   model.set('wacky', true)
+    // })
   }
 })
