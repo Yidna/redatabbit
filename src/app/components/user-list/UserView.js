@@ -10,7 +10,7 @@ export default Marionette.View.extend({
 
   onRender() {
     if (this.model.get('wacky')) {
-      console.log(this.$el.css('background-color', 'red'))
+      this.$el.css('background-color', 'red')
     }
   }
 })
