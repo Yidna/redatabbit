@@ -38,8 +38,5 @@ export default Marionette.View.extend({
         $('.users').prepend('<tr id="row0"><td>User name</td><td>Post count</td></tr>')
       }
     })
-    // this.usersCollectionView.collection.forEach((model) => {
-    //   model.set('wacky', true)
-    // })
   }
 })

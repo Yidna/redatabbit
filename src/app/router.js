@@ -48,9 +48,7 @@ export default Backbone.Router.extend({
 		this.messageCollectionView = new MessageCollectionView();
 		this.modsView = new ModeratorCollectionView()
     this.createBoardView = new CreateBoardView()
-    this.searchUsersView = new SearchUsersView()
     this.searchPostsView = new SearchPostsView()
-    this.wackyUsersView = new WackyUsersView()
     this.usersCollectionView = new UserCollectionView()
 
 		this.loadBanner();
@@ -186,9 +184,13 @@ export default Backbone.Router.extend({
   visitUsers() {
 	$("#users-tab").addClass("active");
 
+    $('#content').empty()
+    this.searchUsersView = new SearchUsersView()
+    this.wackyUsersView = new WackyUsersView()
+
     // search users button
     this.searchUsersView.render()
-    $('#content').empty().append(this.searchUsersView.$el)
+    $('#content').append(this.searchUsersView.$el)
 
     // wacky users button
     this.wackyUsersView.render()
@@ -286,7 +288,7 @@ export default Backbone.Router.extend({
 				}
 				localStorage.setItem("token", data.data[0].token);
 				$.get({
-					url: '/api/accounts/'+localStorage.getItem("username"), 
+					url: '/api/accounts/'+localStorage.getItem("username"),
 					success: (data) => {
 						data.data[0].date_created = data.data[0].date_created.substring(0, 10);
 						content.model.set(data.data[0]);
