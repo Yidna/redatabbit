@@ -8,12 +8,6 @@ module.exports =
       router.get('/accounts', (req, res) => {
         let q = 'SELECT Account.username, COUNT(Post.username)'
         q += 'FROM Account, Post WHERE Account.username=Post.username GROUP BY Post.username;'
-        if (!req.headers.token){
-          return this.sendError(res, "Not logged in")
-        }
-        if(this.authenticate(req.headers.token=="")){
-          return this.sendError(res, "Invalid log in")
-        }
         this.db.query(q, (err, rows) => {
           if (err) {
             return this.sendError(res, "ERROR! TRY AGAIN!")
@@ -25,12 +19,6 @@ module.exports =
 
       router.get('/accounts/:username', (req, res) => {
         const q = 'SELECT username, date_created FROM Account WHERE username=?'
-        if (!req.headers.token){
-          return this.sendError(res, "Not logged in")
-        }
-        if(this.authenticate(req.headers.token=="")){
-            return this.sendError(res, "Invalid log in")
-        }
         this.db.query(q, [req.params.username], (err, rows) => {
           if (err) {
             return this.sendError(res, "ERROR! TRY AGAIN!")
