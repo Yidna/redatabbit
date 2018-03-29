@@ -1,4 +1,6 @@
 // Accounts Route
+const sha512 = require("js-sha512");
+
 module.exports =
   class AccountsLoader extends require('./AuthableLoader') {
     loadRoutes(router) {
@@ -25,8 +27,14 @@ module.exports =
       })
 
       router.put('/accounts/:username', (req, res) => {
-        const q = 'UPDATE Account SET username=?, password=?, is_moderator=? WHERE username=?'
-        this.db.query(q, [req.body.username, req.body.password, req.body.is_moderator, req.params.username], (err, rows) => {
+        const q = 'UPDATE Account SET username=?, password=? WHERE username=? AND password=?'
+		if (!req.headers.token) {
+			return this.sendError(res, "Not logged in");
+		}
+		if (this.authenticate(req.headers.token) == "") {
+			return this.sendError(res, "Invalid login");
+		}
+        this.db.query(q, [req.body.username, sha512(req.body.password), req.params.username, sha512(req.body.oldPassword)], (err, rows) => {
           if (err) {
             return this.sendError(res, err)
           }
@@ -35,10 +43,10 @@ module.exports =
       })
 
       router.post('/accounts', (req, res) => {
-        const q = 'INSERT INTO Account(username, password, is_moderator) VALUES (?, ?, ?)'
+        const q = 'INSERT INTO Account(username, password) VALUES (?, ?)'
         this.db.query(
           q,
-          [req.body.username, req.body.password, req.body.is_modetator],
+          [req.body.username, sha512(req.body.password)],
           (err) => {
             if (err) {
               return this.sendError(res, err)
