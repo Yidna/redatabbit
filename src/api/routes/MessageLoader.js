@@ -24,7 +24,7 @@ module.exports =
                 if (!req.headers.token){
                     return this.sendError(res, "Not logged in")
                 }
-                if(this.authenticate(req.headers.token=="")){
+                if(this.authenticate(req.headers.token)==""){
                     return this.sendError(res, "Invalid log in")
                 }
                 this.db.query(q, [req.params.to_account], (err, rows) => {
