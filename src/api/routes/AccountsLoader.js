@@ -47,12 +47,6 @@ module.exports =
 
       router.post('/accounts', (req, res) => {
         const q = 'INSERT INTO Account(username, password) VALUES (?, ?)'
-        if (!req.headers.token){
-          return this.sendError(res, "Not logged in")
-        }
-        if(this.authenticate(req.headers.token=="")){
-            return this.sendError(res, "Invalid log in")
-        }
         this.db.query(
           q,
           [req.body.username, sha512(req.body.password)],
