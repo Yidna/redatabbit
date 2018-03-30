@@ -81,6 +81,5 @@ module.exports =
             return this.sendSuccessData(res, rows)
           })
         })
->>>>>>> dev
     }
   }
