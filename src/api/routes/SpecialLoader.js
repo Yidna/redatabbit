@@ -18,7 +18,7 @@ module.exports =
         })
 
         router.get('/special/accounts/boards/:username', (req, res) => {
-			const q = 
+			const q =
 				`SELECT c.subboard,
 					    COUNT(*) as postCount
 				 FROM (SELECT DISTINCT p.id, 
@@ -31,7 +31,7 @@ module.exports =
 							 (p.id = r.id AND r.thread = t.id))) as c
 				 WHERE c.username=?
 				 GROUP BY c.subboard HAVING COUNT(*) > 0;`;
-				 
+
 			this.db.query(q, [req.params.username], (err, rows) => {
 				  if (err) {
 					return this.sendError(res, "ERROR! TRY AGAIN!")
