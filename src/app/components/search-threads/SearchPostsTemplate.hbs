@@ -1,14 +1,19 @@
-<div class="search-threads-form">
-  <input type="text" id="search-threads-field" placeholder="Type away...">
-  <select class="search-threads-select" placeholder="hi">
+<div class="search-posts-form">
+  <input type="text" id="search-posts-field" placeholder="Type away...">
+  <select class="search-posts-select" placeholder="hi">
     <option value="" disabled selected>Search for</option>
     <option value="username">Username</option>
-    <option value="title">Thread title</option>
+    <option value="content">Content</option>
   </select>
-  <select class="search-threads-proj">
-    <option value="" disabled selected>Return</option>
-    <option value="username">A list of users</option>
-    <option value="title">A list of threads</option>
-  </select>
-  <input type="submit" id="search-threads-submit" value="Go!">
+  Return:
+  <input type="checkbox" id="thread_id">
+  <label for="thread_id">id</label>
+  <input type="checkbox" id="username">
+  <label for="thread_id">username</label>
+  <input type="checkbox" id="date_created">
+  <label for="thread_id">date_created</label>
+  <input type="checkbox" id="post_content">
+  <label for="post_content">content</label>
+  <input type="submit" id="search-posts-submit" value="Go!">
 </div>
+<table id="search-posts-results"></table>
