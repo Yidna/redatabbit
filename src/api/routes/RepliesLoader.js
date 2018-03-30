@@ -63,5 +63,16 @@ module.exports =
 					return this.sendSuccess(res)
 				})
             })
+			
+			router.post('/searchPosts', (req, res) => {
+				var q = 'SELECT ? FROM Post WHERE ?=?'
+				this.db.query(q, [req.body.select, req.body.where, req.body.search],
+				(err, rows) => {
+					if (err) {
+						return this.sendError(res, err)
+					}
+					return this.sendSuccess(res)
+				})
+            })
         }
     }
