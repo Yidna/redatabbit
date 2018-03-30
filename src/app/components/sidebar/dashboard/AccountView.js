@@ -51,7 +51,7 @@ export default Marionette.View.extend({
 			$(".alert").empty().append("You must enter your current password!");
 			return;
 		}
-		var newPassword = $("new-password").val();
+		var newPassword = $("#new-password").val();
 		if (!newPassword) {
 			newPassword = oldPassword;
 		}
