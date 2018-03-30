@@ -30,7 +30,7 @@ export default Marionette.View.extend({
 	toggleExpand(id) {
 		var target = "#" + "message-" + id;
 		var button = "#" + "expand-" + id + " span";
-		if (!$(target).is(":hidden")) {
+		if ($(target).is(":hidden")) {
 			$(target).show();
 			$(button).removeClass("glyphicon-plus");
 			$(button).addClass("glyphicon-minus");
@@ -44,11 +44,11 @@ export default Marionette.View.extend({
 	
 	deleteMessage(id) {
 		var confirm = "#" + "confirm-delete-" + id;
-		if (!$(confirm).is(":visible")) {
+		if ($(confirm).is(":hidden")) {
 			$(confirm).show();
 		}
 		else {
-			$.ajax({type:"DELETE",
+			$.ajax({method:"DELETE",
 				url: "/api/messages/"+this.model.get("to_account")+"/"+this.model.get("id"),
 				headers: {
 					token: localStorage.getItem("token")

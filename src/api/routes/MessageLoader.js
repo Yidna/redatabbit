@@ -54,15 +54,32 @@ module.exports =
                 })
             })
             // delete a message based on inputted name
-            router.delete('/messages', (req, res) => {
-                const q = 'DELETE FROM Personal_Message WHERE from_account=?'
+            router.delete('/messages/:username', (req, res) => {
+                const q = 'DELETE FROM Personal_Message WHERE to_account=? AND from_account=?'
                 if (!req.headers.token){
                     return this.sendError(res, "Not logged in")
                 }
                 if(this.authenticate(req.headers.token=="")){
                     return this.sendError(res, "Invalid log in")
                 }
-                this.db.query(q, [req.body.id], (err) =>{
+                this.db.query(q, [req.params.username, req.body.from_account], (err) =>{
+                    if (err) {
+                        return this.sendError(res, err)
+                    }
+                    return this.sendSuccess(res)
+                })
+            })
+			
+            // delete a message based on id
+            router.delete('/messages/:username/:id', (req, res) => {
+                const q = 'DELETE FROM Personal_Message WHERE id=?'
+                if (!req.headers.token){
+                    return this.sendError(res, "Not logged in")
+                }
+                if(this.authenticate(req.headers.token=="")){
+                    return this.sendError(res, "Invalid log in")
+                }
+                this.db.query(q, [req.params.id], (err) =>{
                     if (err) {
                         return this.sendError(res, err)
                     }
