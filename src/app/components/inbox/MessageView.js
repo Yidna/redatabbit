@@ -10,7 +10,7 @@ export default Marionette.View.extend({
 	model: new MessageModel(), // is this necessary?
 	tagName: "tr",
 	events: {
-		"click table#messages, tbody, tr, a": "messageClicked"
+		"click table#messages, tbody, tr, a": "messageClicked",
 	},
 	
 	messageClicked(evt) {
@@ -48,19 +48,35 @@ export default Marionette.View.extend({
 			$(confirm).show();
 		}
 		else {
-			$.ajax({method:"DELETE",
-				url: "/api/messages/"+this.model.get("to_account")+"/"+this.model.get("id"),
-				headers: {
-					token: localStorage.getItem("token")
-				},
-				success: (data) => {
-					if (!data.success) {
-						window.location = "/";
-						return;
+			alert(document.getElementById("delete-all-" + id).checked);
+			if (document.getElementById("delete-all-" + id).checked) {
+				var from_account = $("#" + "delete-" + id).attr('class').split("-")[2];
+				$.ajax({method:"DELETE",
+					url: "/api/messages/"+this.model.get("to_account"),
+					data: {
+						from_account: from_account
+					},
+					success: (data) => {
+						//console.log(data);
+						location.reload();
 					}
-					location.reload();
-				}
-			});
+				});
+			}
+			else {
+				$.ajax({method:"DELETE",
+					url: "/api/messages/"+this.model.get("to_account")+"/"+this.model.get("id"),
+					headers: {
+						token: localStorage.getItem("token")
+					},
+					success: (data) => {
+						if (!data.success) {
+							window.location = "/";
+							return;
+						}
+						location.reload();
+					}
+				});
+			}
 		}
 	}
 })

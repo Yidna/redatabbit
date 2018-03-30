@@ -244,12 +244,22 @@ export default Backbone.Router.extend({
 				return;
 			}
 			this.messageCollectionView.collection.add(data.data);
+			$("#content").empty();
 			this.messageCollectionView.render();
-			var newMessageButton = $("<a></a>").addClass("btn").addClass("btn-primary").attr("href", "/#/messages/"+localStorage.getItem("username")+"/compose");
+			var newMessageButton = $("<a></a>").addClass("pull-left").addClass("btn").addClass("btn-primary").attr("href", "/#/messages/"+localStorage.getItem("username")+"/compose");
+			/*var deleteForm = $("<span></span>").addClass("pull-right").append("<strong>Delete all messages from: </strong>");
+			var dropdownBox = $("<select></select>").attr("id", "deleteFromSelector");
+			dropdownBox.append($("<option></option>").attr("value", "-").append("-"));
+			data.data.forEach((obj) => {
+				dropdownBox.append($("<option></option>").attr("value", obj.from_account).append(obj.from_account));
+			});
+			var deleteButton = $("<a></a>").attr("id", "deleteFromAccount").append($("<span></span>").addClass("glyphicon").addClass("glyphicon-trash"));
+			deleteForm.append(dropdownBox);
+			deleteForm.append(deleteButton);*/
 			newMessageButton.append("Send New Message");
 			var messageTable = $("<table></table>").addClass("table");
 			messageTable.append(this.messageCollectionView.$el);
-			$("#content").empty().append(newMessageButton).append(messageTable);
+			$("#content").append(newMessageButton).append(messageTable);
 		}
 	});
   },
