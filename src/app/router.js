@@ -269,7 +269,7 @@ export default Backbone.Router.extend({
 	if (localStorage.getItem("token")) {
 		$("#feat-userboards-tab").show();
 		$("#feat-userboards").show();
-		this.getFeaturedBoards("#feat-userboards", "/api/accounts/"+localStorage.getItem("username")+"/boards");
+		this.getFeaturedBoards("#feat-userboards", "/api/special/accounts/boards/"+localStorage.getItem("username"));
 	}
 	else {
 		$("#feat-top").show();
@@ -320,8 +320,9 @@ export default Backbone.Router.extend({
 			}
 			var item;
 			data.data.forEach((obj) => {
-				item = $("<a></a>").attr("href", "/#/boards/"+obj.name);
-				item.append(obj.name + "@" + obj.postCount);
+				item = $("<a></a>").addClass("col-sm-12").attr("href", "/#/boards/"+obj.subboard);
+				item.append($("<strong></strong>").addClass("pull-left").append(obj.subboard));
+				item.append($("<span></span>").addClass("pull-right").append("<strong>Posts: </strong>"+obj.postCount));
 				$(divID + " ul").append($("<li></li>").attr("style", "cursor:pointer").append(item));
 			});
 		},
