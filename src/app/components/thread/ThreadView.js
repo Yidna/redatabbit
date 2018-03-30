@@ -23,6 +23,7 @@ export default Marionette.View.extend({
     if (!loggedIn || user !== threadOP) {
       if (!modStatus) {
         this.$('.edit').hide()
+        this.$('.delete').hide()
       }
     }
   },
