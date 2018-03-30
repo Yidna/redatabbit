@@ -214,8 +214,8 @@ export default Backbone.Router.extend({
     $('.search-users-button').after(this.wackyUsersView.$el)
 
     // add users
+    this.usersCollectionView = new UserCollectionView()
     this.usersCollectionView.collection.reset()
-    // TODO: users query, ranked by post count
     $.get('/api/accounts', (data) => {
       if (!data.success) {
         alert(data.message)
