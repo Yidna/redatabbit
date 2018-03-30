@@ -286,8 +286,8 @@ export default Backbone.Router.extend({
 	else {
 		$("#feat-top").show();
 	}
-	this.getFeaturedBoards("#feat-top", "/api/special/subboards/top");
-	this.getFeaturedBoards("#feat-bottom", "/api/special/subboards/bottom");
+	this.getFeaturedBoards("#feat-top", "/api/special/boards/top");
+	this.getFeaturedBoards("#feat-bottom", "/api/special/boards/bottom");
   },
 
   getUserPanel() {
