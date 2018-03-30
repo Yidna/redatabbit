@@ -30,13 +30,13 @@ export default Marionette.View.extend({
 	toggleExpand(id) {
 		var target = "#" + "message-" + id;
 		var button = "#" + "expand-" + id + " span";
-		if ($(target).attr("style")) {
-			$(target).removeAttr("style");
+		if (!$(target).is(":hidden")) {
+			$(target).show();
 			$(button).removeClass("glyphicon-plus");
 			$(button).addClass("glyphicon-minus");
 		}
 		else {
-			$(target).attr("style", "visibility:hidden;height:0px");
+			$(target).hide();
 			$(button).removeClass("glyphicon-minus");
 			$(button).addClass("glyphicon-plus");
 		}

@@ -28,6 +28,8 @@ module.exports =
       })
 
       router.put('/accounts/:username', (req, res) => {
+		  console.log("I have a put call");
+		  console.log([req.body.username, sha512(req.body.password), req.params.username, sha512(req.body.oldPassword)]);
         const q = 'UPDATE Account SET username=?, password=? WHERE username=? AND password=?'
         if (!req.headers.token) {
           return this.sendError(res, "Not logged in");

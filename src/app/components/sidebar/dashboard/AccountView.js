@@ -26,12 +26,12 @@ export default Marionette.View.extend({
 	},
 	
 	toggleSettings(evt) {
-		if ($("#settings").attr("style") == "visibility:hidden;height:0px") {
-			$("#settings").attr("style", "visibility:visible");
+		if ($("#settings").is(":hidden")) {
+			$("#settings").show();
 		}
 		else {
-			$("#settings").attr("style", "visibility:hidden;height:0px");
-			$(".alert").attr("style", "visibility:hidden;height:0px");
+			$("#settings").hide();
+			$(".alert").hide();
 			$("#username").val("");
 			$("#new-password").val("");
 			$("#old-password").val("");
@@ -39,27 +39,55 @@ export default Marionette.View.extend({
 	},
 	
 	submit(evt) {
-		$(".alert").attr("style", "visibility:hidden");
+		$(".alert").hide();
 		evt.preventDefault();
-		$(".alert").empty().append("API call not yet implemented");
-		$(".alert").attr("style", "visibility:visible");
-		return;
-		$.put({
-			url: "api/accounts/"+this.model.username,
+		var newUsername = $("#username").val();
+		if (!newUsername) {
+			newUsername = this.model.get("username");
+		}
+		var oldPassword = $("#old-password").val();
+		if (!oldPassword) {
+			$(".alert").show();
+			$(".alert").empty().append("You must enter your current password!");
+			return;
+		}
+		var newPassword = $("new-password").val();
+		if (!newPassword) {
+			newPassword = oldPassword;
+		}
+		
+		$.ajax({method: "PUT",
+			url: "api/accounts/"+this.model.get("username"),
 			headers: {
 				token: localStorage.getItem("token"),
 			},
 			data: {
-				oldPassword: $("#old-password").val(),
-				username: $("#username").val(),
-				password: $("#new-password").val()
+				oldPassword: oldPassword,
+				username: newUsername,
+				password: newPassword
 			},
 			success: (data) => {
 				if (!data.success) {
 					$(".alert").empty().append(data.message);
-					$(".alert").attr("style", "visibility:visible");
+					$(".alert").show();
 					return;
 				}
+				$.post({
+					url: "api/authenticate/login",
+					data: {
+						username: newUsername,
+						password: newPassword
+					},
+					success: (data) => {
+						if (!data.success) {
+							$(".alert").empty().append("Something awful happened. Please reload the page.");
+							$(".alert").show();
+						}
+						localStorage.setItem("token", data.data[0].token);
+						localStorage.setItem("username", newUsername);
+						location.reload();
+					}
+				});
 			}
 		});
 	}

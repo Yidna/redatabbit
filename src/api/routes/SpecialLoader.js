@@ -48,7 +48,7 @@ module.exports =
                       (p.id = r.id AND r.thread = t.id))) as c
                     GROUP BY c.subboard, c.username) as a
                     GROUP BY a.subboard;
-                      SELECT Temp.subboard, Temp.average
+                      SELECT Temp.subboard, Temp.average as postCount
                       FROM  Temp
                       WHERE Temp.average = (SELECT MAX(Temp.average)
                                         FROM Temp);
@@ -57,7 +57,7 @@ module.exports =
             if (err) {
               return this.sendError(res, "ERROR! TRY AGAIN!")
             }
-            return this.sendSuccessData(res, rows)
+            return this.sendSuccessData(res, rows[1])
           })
         })
 
@@ -69,7 +69,7 @@ module.exports =
                       (p.id = r.id AND r.thread = t.id))) as c
                     GROUP BY c.subboard, c.username) as a
                     GROUP BY a.subboard;
-                      SELECT Temp.subboard, Temp.average
+                      SELECT Temp.subboard, Temp.average as postCount
                       FROM  Temp
                       WHERE Temp.average = (SELECT MIN(Temp.average)
                                         FROM Temp);
@@ -78,7 +78,7 @@ module.exports =
             if (err) {
               return this.sendError(res, "ERROR! TRY AGAIN!")
             }
-            return this.sendSuccessData(res, rows)
+            return this.sendSuccessData(res, rows[1])
           })
         })
     }

@@ -36,7 +36,8 @@ export default Backbone.Router.extend({
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
 	'messages/:username/compose(/:to_account)': 'visitCompose',
-    "searchPosts": 'searchPosts'
+    "searchPosts": 'searchPosts',
+	"logout": "logout"
   },
 
 	initialize() {
@@ -352,6 +353,12 @@ export default Backbone.Router.extend({
 		}
 	});
 	return "";
+  },
+  
+  logout() {
+	  localStorage.removeItem("token");
+	  localStorage.removeItem("username");
+	  window.location = "/";
   }
 })
 

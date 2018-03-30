@@ -12,7 +12,7 @@ export default Marionette.View.extend({
 	},
 	login(evt) {
 		$(".alert").removeClass("alert-success").addClass("alert-danger");
-		$(".alert").attr("style", "visibility:hidden");
+		$(".alert").hide();
 		evt.preventDefault();
 		$.post("/api/authenticate/login", {
 			"username": $("#username").val(),
@@ -21,7 +21,7 @@ export default Marionette.View.extend({
 		(data) => {
 			if (!data.success) {
 				$(".alert").empty().append(data.message);
-				$(".alert").attr("style", "visibility:visible");
+				$(".alert").show();
 				return;
 			}
 			localStorage.setItem("username", $("#username").val());
@@ -31,7 +31,7 @@ export default Marionette.View.extend({
 	},
 	register(evt) {
 		$(".alert").removeClass("alert-success").addClass("alert-danger");
-		$(".alert").attr("style", "visibility:hidden");
+		$(".alert").hide();
 		evt.preventDefault();
 		$.post({
 			url: "/api/accounts",
@@ -43,12 +43,12 @@ export default Marionette.View.extend({
 			success: (data) => {
 				if (!data.success) {
 					$(".alert").empty().append(data.message);
-					$(".alert").attr("style", "visibility:visible");
+					$(".alert").show();
 					return;
 				}
 				$(".alert").removeClass("alert-danger").addClass("alert-success");
 				$(".alert").empty().append("Account successfully created!");
-				$(".alert").attr("style", "visibility:visible");
+				$(".alert").show();
 			}
 		});
 	}
