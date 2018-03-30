@@ -32,6 +32,7 @@ export default Backbone.Router.extend({
     'boards/:subboard/threads/:thread_id': 'visitThread',
     'boards/:subboard/threads/:thread_id/edit': 'editThread',
     'boards/:subboard/threads/:thread_id/create': 'createComment',
+    'boards/:subboard/threads/:thread_id/delete': 'deleteThread',
     'boards/:subboard/threads/:thread_id/replies/:comment_id': 'editComment',
 	'users': 'visitUsers',
 	'messages/:username': 'visitInbox',
@@ -187,6 +188,23 @@ export default Backbone.Router.extend({
     // // TODO: post request
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
+  },
+
+  deleteThread() {
+    $.ajax({
+      method: 'DELETE',
+      url: `/api/sub${Backbone.history.fragment.split('/delete')[0]}`,
+      headers: {
+        token: localStorage.getItem('token')
+      },
+      success: (data) => {
+        if (!data.success) {
+          alert(data.message)
+        } else {
+          window.history.back()
+        }
+      }
+    })
   },
 
   editComment() {
@@ -364,7 +382,7 @@ export default Backbone.Router.extend({
 	});
 	return "";
   },
-  
+
   logout() {
 	  localStorage.removeItem("token");
 	  localStorage.removeItem("username");
