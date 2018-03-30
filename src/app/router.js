@@ -152,12 +152,21 @@ export default Backbone.Router.extend({
 
   createThread() {
     this.postBoxView = new PostBoxView()
+    this.postBoxView.model.set({
+      'comment': false,
+      'edit': false
+    })
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
+    $('#post-box-title').show()
   },
 
   createComment() {
     this.postBoxView = new PostBoxView()
+    this.postBoxView.model.set({
+      'comment': true,
+      'edit': false
+    })
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
     // TODO: post request
@@ -165,6 +174,10 @@ export default Backbone.Router.extend({
 
   editThread() {
     this.postBoxView = new PostBoxView()
+    this.postBoxView.model.set({
+      'comment': false,
+      'edit': true
+    })
     // // TODO: retrieve threadContent
     // const stubContent = 'thread user should be about to edit'
     // this.postBoxView.render()
@@ -173,17 +186,16 @@ export default Backbone.Router.extend({
     // // TODO: post request
     this.postBoxView.render()
     $('#content').empty().append(this.postBoxView.$el)
-    $('#post-box-title').hide()
   },
 
   editComment() {
     this.postBoxView = new PostBoxView()
-    // TODO: retrieve threadContent
-    const stubContent = 'comment user should be about to edit'
+    this.postBoxView.model.set({
+      'comment': true,
+      'edit': true
+    })
     this.postBoxView.render()
-    this.postBoxView.$('#post-box-text').text(stubContent)
     $('#content').empty().append(this.postBoxView.$el)
-    // TODO: post request
   },
 
   visitUsers() {

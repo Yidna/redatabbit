@@ -15,7 +15,9 @@ export default Marionette.View.extend({
 
   onRender() {
     // so hacky
-    if ((Backbone.history.fragment.split('/').pop() === 'edit')) {
+
+    // if we are editing thread, we must get title and content
+    if (!this.model.get('comment') && this.model.get('edit')) {
       $.get(`/api/sub${Backbone.history.fragment.split('/edit')[0]}`, (data) => {
         if (!data.success) {
           alert(data.message)
@@ -26,9 +28,29 @@ export default Marionette.View.extend({
         }
       })
     }
+
+    // if we are editing comment, we must get title and content
+    if (this.model.get('comment') && this.model.get('edit')) {
+      $.get(`/api/sub${Backbone.history.fragment}`, (data) => {
+        if (!data.success) {
+          alert(data.message)
+          window.history.back()
+        } else {
+          $('#post-box-text').text(data.data[0]['content'])
+        }
+      })
+    }
   },
 
-  submitForm: async () => {
+  async submitForm() {
+    if (this.model.get('comment')) {
+      this.submitComment()
+    } else {
+      this.submitThread()
+    }
+  },
+
+  async submitThread() {
     const title = $('#post-box-title').val()
     const text = $('#post-box-text').val()
     // do not submit if empty
@@ -38,20 +60,22 @@ export default Marionette.View.extend({
 
     const token = localStorage.getItem('token');
     // are we creating a new post? or editing?
-    const newPost = (Backbone.history.fragment.split('/').pop() === 'create')
+    const editThread = this.model.get('edit')
     // api url
     let url;
     // api data
     let reqData;
     // request type
     let method;
-    if (newPost) {
+    // new thread
+    if (!editThread) {
       url = `/api/sub${Backbone.history.fragment.split('/create')[0]}`
       reqData = {
         text: text,
         title: title
       }
       method = 'POST'
+    // old thread
     } else {
       url = `/api/sub${Backbone.history.fragment.split('/edit')[0]}`
       await $.get(url, (data) => {
@@ -68,6 +92,56 @@ export default Marionette.View.extend({
       })
       method = 'PUT'
     }
+    $.ajax({
+      method: method,
+      url: url,
+      headers: {
+        token: token
+      },
+      data: reqData,
+      success: (data) => {
+        if (!data.success) {
+          alert(data.message)
+        } else {
+          window.history.back()
+        }
+      }
+    })
+  },
+
+  async submitComment() {
+    const text = $('#post-box-text').val()
+    // do not submit if empty
+    if (!text) {
+      return;
+    }
+    let thread_id = Backbone.history.fragment.split('/create')[0]
+    thread_id = thread_id.split('/').pop()
+
+    const token = localStorage.getItem('token');
+    // are we creating a new comment? or editing?
+    const editComment = this.model.get('edit')
+
+    let url
+    let reqData
+    let method
+
+    // new comment
+    if (!editComment) {
+      url = `/api/sub${Backbone.history.fragment.split('/create')[0]}/replies`
+      reqData = {
+        text: text
+      }
+      method = 'POST'
+      // old comment
+    } else {
+      url = `/api/sub${Backbone.history.fragment}`
+      reqData = {
+        text: text
+      }
+      method = 'PUT'
+    }
+
     $.ajax({
       method: method,
       url: url,

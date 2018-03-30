@@ -12,6 +12,16 @@ module.exports =
 				})
             })
 
+			router.get('/subboards/:subboard_name/threads/:thread_id/replies/:comment_id', (req, res) => {
+				const q = 'SELECT p.id, username, date_created, content FROM Reply r, Post p WHERE p.id=? AND r.id = p.id'
+				this.db.query(q, [req.params.comment_id], (err, rows) => {
+					if (err) {
+					  return this.sendError(res, err)
+					}
+					return this.sendSuccessData(res, rows)
+				})
+            })
+
             router.put('/subboards/:subboard_name/threads/:thread_id/replies/:comment_id', (req, res) => {
 				if (!req.headers.token) {
 					return this.sendError(res, "No token");
@@ -20,7 +30,7 @@ module.exports =
 				if (auth == "") {
 					return this.sendError(res, "No user in token");
 				}
-				
+
 				var q = 'SET @sb := (SELECT DISTINCT subboard FROM Moderates WHERE username=? AND subboard=?);'
 				q += 'SET @id := (SELECT DISTINCT p.id FROM Post p, Thread t, Reply r WHERE p.id=? AND (p.username=? OR (p.id=r.id AND r.thread=t.id AND t.subboard=@sb)));'
 				q += 'UPDATE Post SET content=? WHERE id=@id'
@@ -40,7 +50,7 @@ module.exports =
 				if (auth == "") {
 					return this.sendError(res, "No user in token");
 				}
-				
+
 				var q = 'INSERT INTO Post(username, content) VALUES (?, ?);'
 				q += 'INSERT INTO Reply(id, thread) VALUES (LAST_INSERT_ID(), ?)'
 				this.db.query(
